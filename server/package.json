@@ -1,8 +1,8 @@
 {
-  "name": "igarcom",
+  "name": "igarcom-server",
   "version": "1.0.0",
   "description": "Aplicativo de garçom online para que clientes realizem o pedido de forma automática",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf dist/ && babel ./ --out-dir dist/ --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files",
@@ -16,7 +16,8 @@
   "author": "Menighin",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.4"
+    "express": "^4.16.4",
+    "socket.io": "^2.1.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
