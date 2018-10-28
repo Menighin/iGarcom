@@ -1,8 +1,10 @@
 <template>
 	<div id="app">
 		<h1>{{iGarcomData.store}}</h1>
-		<MainMenu v-if="isInMenu" :menus="iGarcomData.menu" @click="menuClick" />
-		<MenuDetail v-if="!isInMenu" :menu="selectedMenu" :order="order" />
+		<!-- <MainMenu v-if="isInMenu" :menus="iGarcomData.menu" @click="menuClick" />
+		<MenuDetail v-if="!isInMenu" :menu="selectedMenu" :order="order" /> -->
+
+		<router-view v-bind="{menus: iGarcomData.menu, menu: selectedMenu, order: order}"></router-view>
 
 		<br>
 		<hr>

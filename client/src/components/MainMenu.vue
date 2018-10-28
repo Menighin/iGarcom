@@ -1,6 +1,6 @@
 <template>
 	<div class="mainMenu">
-		<button v-for="(m, i) in menus" :key="`menu-${i}`" @click="$emit('click', m.id)">{{m.label}}</button>
+		<router-link :to="`ordering/${m.id}`" v-for="(m, i) in menus" :key="`menu-${i}`">{{m.label}}<br></router-link>
 	</div>
 </template>
 

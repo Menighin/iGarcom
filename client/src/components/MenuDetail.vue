@@ -16,12 +16,16 @@ export default {
 		ItemList
 	},
 	props: {
-		menu: {
-			type: Object,
+		optionId: {
+			type: String,
 			required: true
 		},
 		order: {
 			type: Object,
+			required: true
+		},
+		menus: {
+			type: Array,
 			required: true
 		}
 	},
@@ -29,7 +33,10 @@ export default {
 		return {
 		}
 	},
-	methods: {
+	computed: {
+		menu() {
+			return this.menus.filter(m => m.id === this.optionId)[0];
+		}
 	}
 }
 
