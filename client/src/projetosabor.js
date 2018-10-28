@@ -79,18 +79,21 @@ export default {
 			component: 'ItemList',
 			content: [
 				{
+					id: 'fileparmegiana',
 					name: 'Filé à parmegiana',
 					description: 'Filé de boi à parmegiana acompanhando de arroz, feijao e bla',
 					img: 'fileparm.png',
 					price: 39.90
 				},
 				{
+					id: 'filefrango',
 					name: 'Filé de frango',
 					description: 'Filé de frango acompanha arroz e salada',
 					img: 'filefrango.png',
 					price: 32.90
 				},
 				{
+					id: 'feijoada',
 					name: 'Feijoada',
 					description: 'Feijoada de carnes como rabo, toucinho e bla',
 					img: 'feijoada',
@@ -104,16 +107,19 @@ export default {
 			component: 'ItemList',
 			content: [
 				{
+					id: 'coke',
 					name: 'Coca-cola Lata',
 					img: 'coca.png',
 					price: 4.90
 				},
 				{
+					id: 'orange',
 					name: 'Suco Laranja',
 					img: 'sucolarnaja.png',
 					price: 6.00
 				},
 				{
+					id: 'juicehome',
 					name: 'Suco da casa',
 					description: 'Suco de maracujá com morango e gengibre',
 					img: 'sucocasa.png',

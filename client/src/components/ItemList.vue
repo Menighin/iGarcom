@@ -9,7 +9,9 @@
 				</div>
 				<span class="item-price">{{item.price}}</span>
 				<div class="item-controls">
-					<input type="number" v-model="order[item.id].quantity" />
+					<button @click="order[item.id].quantity--">-</button>
+					{{order[item.id].quantity}}
+					<button @click="order[item.id].quantity++">+</button>
 				</div>
 			</div>
 		</li>
@@ -42,7 +44,16 @@ export default {
 		}
 	},
 	created() {
-		console.log(this.items);
+		for (let item of this.items) {
+			let id = item.id;
+			if (typeof this.order[id] === 'undefined' || this.order[id] == null) {
+				Vue.set(this.order, id, {
+					name: item.name,
+					price: item.price,
+					quantity: 0
+				});
+			}
+		}
 	}
 }
 </script>
