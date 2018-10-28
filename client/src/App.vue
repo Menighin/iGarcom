@@ -1,39 +1,42 @@
 <template>
-  	<div id="app">
+	<div id="app">
 		<h1>{{iGarcomData.store}}</h1>
 		<MainMenu v-if="isInMenu" :menus="iGarcomData.menu" @click="menuClick" />
-		<MenuDetail v-if="!isInMenu" :menu="selectedMenu" />
-  	</div>
+		<MenuDetail v-if="!isInMenu" :menu="selectedMenu" :order="order" />
+
+		<br>
+		<hr>
+		{{order}}
+	</div>
 </template>
 
 <script>
-	import iGarcomData from './projetosabor.js';
-	import MainMenu from './components/MainMenu';
-	import MenuDetail from './components/MenuDetail';
+import iGarcomData from './projetosabor.js';
+import MainMenu from './components/MainMenu';
+import MenuDetail from './components/MenuDetail';
 
-	export default {
-		name: 'App',
-		components: {
-			MainMenu,
-			MenuDetail
-		},
-		data() {
-			return {
-				iGarcomData: iGarcomData,
-				isInMenu: true,
-				selectedMenu: null
-			}
-		},
-		methods: {
-			menuClick(id) {
-
-				let menu = iGarcomData.menu.filter(m => m.id === id)[0];
-				this.selectedMenu = menu;
-				this.isInMenu = false;
-
-			}
+export default {
+	name: 'App',
+	components: {
+		MainMenu,
+		MenuDetail
+	},
+	data() {
+		return {
+			iGarcomData: iGarcomData,
+			isInMenu: true,
+			selectedMenu: null,
+			order: {}
+		}
+	},
+	methods: {
+		menuClick(id) {
+			let menu = iGarcomData.menu.filter(m => m.id === id)[0];
+			this.selectedMenu = menu;
+			this.isInMenu = false;
 		}
 	}
+}
 </script>
 
 <style>
