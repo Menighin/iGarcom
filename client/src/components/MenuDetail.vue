@@ -2,23 +2,29 @@
 	<div id="menu-detail">
         {{menu.label}}
 
-        <component :is="menu.component" v-bind="{items: menu.content, order: order}" />
+        <component :is="menu.component" v-bind="{model: menu.model, order: order, step: step}" />
 	</div>
 </template>
 
 <script>
 
 import ItemList from './ItemList';
+import ComplexOrder from './ComplexOrder';
 
 export default {
 	name: 'MenuDetail',
 	components: {
-		ItemList
+		ItemList,
+		ComplexOrder
 	},
 	props: {
 		optionId: {
 			type: String,
 			required: true
+		},
+		step: {
+			type: String,
+			default: '0'
 		},
 		order: {
 			type: Object,

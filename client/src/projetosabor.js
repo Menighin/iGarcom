@@ -11,12 +11,11 @@ export default {
 		{
 			id: 'sandwich',
 			label: 'Sanduíches',
-			component: 'ItemComplex',
-			steps: [
+			component: 'ComplexOrder',
+			model: [
 				{
 					name: 'Pão',
 					label: 'Escolha o pão',
-					extra: false,
 					minChoices: 1,
 					maxChoices: 1,
 					options: [
@@ -33,7 +32,6 @@ export default {
 				{
 					name: 'Carne',
 					label: 'Escolha a carne',
-					extra: false,
 					minChoices: 1,
 					maxChoices: 1,
 					options: [
@@ -50,7 +48,6 @@ export default {
 				{
 					name: 'Salada',
 					label: 'Escolha os acompanhamentos',
-					extra: true,
 					minChoices: 1,
 					maxChoices: 5,
 					options: [
@@ -77,7 +74,7 @@ export default {
 			id: 'food',
 			label: 'Comida',
 			component: 'ItemList',
-			content: [
+			model: [
 				{
 					id: 'fileparmegiana',
 					name: 'Filé à parmegiana',
@@ -105,7 +102,7 @@ export default {
 			id: 'beverage',
 			label: 'Bebidas',
 			component: 'ItemList',
-			content: [
+			model: [
 				{
 					id: 'coke',
 					name: 'Coca-cola Lata',

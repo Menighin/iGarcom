@@ -17,6 +17,12 @@ export default new Router({
 			name: 'ordering',
 			component: MenuDetail,
 			props: true
+		},
+		{
+			path: '/:storeId/ordering/:optionId/:step',
+			name: 'orderingComplex',
+			component: MenuDetail,
+			props: true
 		}
 	]
 })

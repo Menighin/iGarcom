@@ -1,6 +1,6 @@
 <template>
 	<div class="mainMenu">
-		<router-link :to="`ordering/${m.id}`" v-for="(m, i) in menus" :key="`menu-${i}`">{{m.label}}<br></router-link>
+		<router-link :to="getRouterLink(m)" v-for="(m, i) in menus" :key="`menu-${i}`">{{m.label}}<br></router-link>
 	</div>
 </template>
 
@@ -15,6 +15,14 @@ export default {
 	},
 	data() {
 		return {
+		}
+	},
+	methods: {
+		getRouterLink(menu) {
+			if (menu.component === 'ComplexOrder')
+				return `ordering/${menu.id}/0`;
+			else
+				return `ordering/${menu.id}`;
 		}
 	}
 }

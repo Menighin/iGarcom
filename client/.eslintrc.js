@@ -29,6 +29,7 @@ module.exports = {
     'no-tabs': ['error', { allowIndentationTabs: true }],
     'indent': ['error', 'tab'],
     'space-before-function-paren': ['error', 'never'],
-    'semi': ['off', 'always']
+    'semi': ['off', 'always'],
+    'curly': ['error', 'multi-or-nest']
   }
 }

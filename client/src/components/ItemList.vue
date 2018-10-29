@@ -1,6 +1,6 @@
 <template>
 	<ul class="item-list">
-		<li class="item" v-for="(item, i) in items" :key="`item-${i}`">
+		<li class="item" v-for="(item, i) in model" :key="`item-${i}`">
 			<div class="item-container">
 				<div class="placeholder"></div>
 				<div class="item-info">
@@ -25,7 +25,7 @@ import Vue from 'vue';
 export default {
 	name: 'ItemList',
 	props: {
-		items: {
+		model: {
 			type: Array,
 			required: true
 		},
@@ -39,12 +39,9 @@ export default {
 		}
 	},
 	methods: {
-		menuClick(id) {
-			this.isInMenu = false;
-		}
 	},
 	created() {
-		for (let item of this.items) {
+		for (let item of this.model) {
 			let id = item.id;
 			if (typeof this.order[id] === 'undefined' || this.order[id] == null) {
 				Vue.set(this.order, id, {

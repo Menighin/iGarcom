@@ -1,14 +1,12 @@
 <template>
 	<div id="app">
 		<h1>{{iGarcomData.store}}</h1>
-		<!-- <MainMenu v-if="isInMenu" :menus="iGarcomData.menu" @click="menuClick" />
-		<MenuDetail v-if="!isInMenu" :menu="selectedMenu" :order="order" /> -->
 
-		<router-view v-bind="{menus: iGarcomData.menu, menu: selectedMenu, order: order}"></router-view>
+		<router-view v-bind="{menus: iGarcomData.menu, order: order}"></router-view>
 
 		<br>
 		<hr>
-		{{order}}
+		{{orderSummary}}
 	</div>
 </template>
 
@@ -26,16 +24,12 @@ export default {
 	data() {
 		return {
 			iGarcomData: iGarcomData,
-			isInMenu: true,
-			selectedMenu: null,
 			order: {}
 		}
 	},
-	methods: {
-		menuClick(id) {
-			let menu = iGarcomData.menu.filter(m => m.id === id)[0];
-			this.selectedMenu = menu;
-			this.isInMenu = false;
+	computed: {
+		orderSummary() {
+			return Object.values(this.order).filter(o => o.quantity > 0);
 		}
 	}
 }
