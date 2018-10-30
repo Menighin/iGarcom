@@ -40,7 +40,7 @@ export default {
 							price: 24.90
 						},
 						{
-							name: 'frango',
+							name: 'Frango',
 							price: 18.90
 						}
 					]
