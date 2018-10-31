@@ -2,7 +2,10 @@
 	<div id="menu-detail">
         {{menu.label}}
 
-        <component :is="menu.component" v-bind="{model: menu.model, order: order, step: step}" />
+        <component
+			:is="menu.component"
+			v-bind="{model: menu.model, order: order, step: step}"
+			/>
 	</div>
 </template>
 

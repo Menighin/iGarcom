@@ -2,11 +2,13 @@
 	<div id="app">
 		<h1>{{iGarcomData.store}}</h1>
 
-		<router-view v-bind="{menus: iGarcomData.menu, order: order}"></router-view>
+		<router-view v-bind="{menus: iGarcomData.menu, order: order}" :key="$route.fullPath"></router-view>
 
 		<br>
 		<hr>
 		{{orderSummary}}
+		<hr>
+		{{complexOrder}}
 	</div>
 </template>
 
@@ -14,6 +16,7 @@
 import iGarcomData from './projetosabor.js';
 import MainMenu from './components/MainMenu';
 import MenuDetail from './components/MenuDetail';
+import { EventBus } from './EventBus';
 
 export default {
 	name: 'App',
@@ -24,13 +27,37 @@ export default {
 	data() {
 		return {
 			iGarcomData: iGarcomData,
-			order: {}
+			order: {},
+			complexOrder: []
 		}
 	},
 	computed: {
 		orderSummary() {
 			return Object.values(this.order).filter(o => o.quantity > 0);
 		}
+	},
+	mounted() {
+		let self = this;
+		EventBus.$on('complexStep', function(step, picked, stepModel) {
+			if (Array.isArray(picked)) {
+				let pickedChoices = picked.map(p => ({name: stepModel.options[p].name, price: stepModel.options[p].price}));
+				self.complexOrder[step] = {
+					name: stepModel.name,
+					picked: pickedChoices
+				}
+			} else {
+				let pickedChoice = {name: stepModel.options[picked].name, price: stepModel.options[picked].price};
+				self.complexOrder[step] = {
+					name: stepModel.name,
+					picked: pickedChoice
+				}
+			}
+		});
+
+		EventBus.$on('complexFinish', function(id) {
+			if (!self.order.hasOwnProperty(id)) self.order[id] = [];
+			self.order[id].push(self.complexOrder);
+		});
 	}
 }
 </script>

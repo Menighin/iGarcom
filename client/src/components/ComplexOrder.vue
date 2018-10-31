@@ -5,7 +5,7 @@
 
 		<ul class="options-list">
 			<li class="option-item" v-for="(o, i) in stepModel.options" :key="`option-${i}`">
-				<input :type="inputType" :id="`item-${i}`" :value="o.name" v-model="picked">
+				<input :type="inputType" :id="`item-${i}`" :value="i" v-model="picked">
 				<label :for="`item-${i}`">{{o.name}}</label>
 			</li>
 		</ul>
@@ -15,13 +15,16 @@
 		<br>
 
 		<router-link v-if="step > 0" :to="`${parseInt(step) - 1}`">Voltar</router-link>
-		<router-link v-if="step < model.length - 1" :to="`${parseInt(step) + 1}`">Avançar</router-link>
-		<router-link v-if="step == model.length - 1" to="../../">Finalizar</router-link>
+		<router-link @click.native="next" v-if="step < model.length - 1" :to="`${parseInt(step) + 1}`">Avançar</router-link>
+		<router-link @click.native="finish" v-if="step == model.length - 1" to="../../">Finalizar</router-link>
 
 	</div>
 </template>
 
 <script>
+
+import { EventBus } from '../EventBus';
+
 export default {
 	name: 'ComplexOrder',
 	props: {
@@ -52,6 +55,15 @@ export default {
 				return 'checkbox';
 			else
 				return 'radio';
+		}
+	},
+	methods: {
+		next() {
+			EventBus.$emit('complexStep', this.step, this.picked, this.stepModel);
+		},
+		finish() {
+			EventBus.$emit('complexStep', this.step, this.picked, this.stepModel);
+			EventBus.$emit('complexFinish', this.model.id);
 		}
 	}
 }
