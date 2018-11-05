@@ -20,6 +20,7 @@ import MainMenu from './components/MainMenu';
 import MenuDetail from './components/MenuDetail';
 import { EventBus } from './EventBus';
 import axios from 'axios';
+import io from 'socket.io-client';
 
 export default {
 	name: 'App',
@@ -65,9 +66,11 @@ export default {
 	},
 	created() {
 		axios.get('http://localhost:3000/json')
-		.then(response => {
-			this.test = response.data
-		})
+			.then(response => {
+				this.test = response.data
+			});
+
+		const socket = io.connect('http://localhost:3000/customer-socket');
 	}
 }
 </script>
