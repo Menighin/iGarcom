@@ -7,6 +7,8 @@
 		<br>
 		<hr>
 		{{orderSummary}}
+
+		{{test}}
 		<hr>
 		{{complexOrder}}
 	</div>
@@ -17,6 +19,7 @@ import iGarcomData from './projetosabor.js';
 import MainMenu from './components/MainMenu';
 import MenuDetail from './components/MenuDetail';
 import { EventBus } from './EventBus';
+import axios from 'axios';
 
 export default {
 	name: 'App',
@@ -28,7 +31,8 @@ export default {
 		return {
 			iGarcomData: iGarcomData,
 			order: {},
-			complexOrder: []
+			complexOrder: [],
+			test: {}
 		}
 	},
 	computed: {
@@ -58,6 +62,12 @@ export default {
 			if (!self.order.hasOwnProperty(id)) self.order[id] = [];
 			self.order[id].push(self.complexOrder);
 		});
+	},
+	created() {
+		axios.get('http://localhost:3000/json')
+		.then(response => {
+			this.test = response.data
+		})
 	}
 }
 </script>
