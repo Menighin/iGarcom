@@ -1,15 +1,21 @@
 import express from 'express';
 import fs from 'fs';
+import path from 'path';
 
 const router = express.Router();
 
 router.get('/list', (req, res) => {
-    let stores = fs.readdirSync('C:\\Projects\\iGarcom\\server\\jsons');
+    const jsonPath = path.join(__dirname, '..', 'jsons');
+    const stores = fs.readdirSync(jsonPath);
     res.send(stores);
 });
 
 router.get('/:storeName/meta', (req, res) => {
-    res.send(req.params.storeName);
+
+    const storeName = req.params.storeName;
+    const jsonPath = path.join(__dirname, '..', 'jsons', `${storeName}.json`);
+
+    res.send(fs.readFileSync(jsonPath).toString());
 });
 
 export default router;
