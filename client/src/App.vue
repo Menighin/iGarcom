@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div id="app" v-if="iGarcomData != null">
 		<h1>{{iGarcomData.store}}</h1>
 
 		<router-view v-bind="{menus: iGarcomData.menu, order: order}" :key="$route.fullPath"></router-view>
@@ -7,20 +7,17 @@
 		<br>
 		<hr>
 		{{orderSummary}}
-
-		{{test}}
 		<hr>
 		{{complexOrder}}
 	</div>
 </template>
 
 <script>
-import iGarcomData from './projetosabor.js';
 import MainMenu from './components/MainMenu';
 import MenuDetail from './components/MenuDetail';
 import { EventBus } from './EventBus';
 import axios from 'axios';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
 export default {
 	name: 'App',
@@ -30,15 +27,30 @@ export default {
 	},
 	data() {
 		return {
-			iGarcomData: iGarcomData,
+			iGarcomData: null,
 			order: {},
-			complexOrder: [],
-			test: {}
+			complexOrder: []
 		}
 	},
 	computed: {
 		orderSummary() {
 			return Object.values(this.order).filter(o => o.quantity > 0);
+		}
+	},
+	watch: {
+		'$route.params.storeId'(storeId) {
+			this.init(storeId);
+		}
+	},
+	methods: {
+		init(storeId) {
+			axios
+				.get(`http://localhost:3000/stores/${storeId}/meta`)
+				.then(response => {
+					this.order = {};
+					this.complexOrder = [];
+					this.iGarcomData = response.data;
+				})
 		}
 	},
 	mounted() {
@@ -65,12 +77,7 @@ export default {
 		});
 	},
 	created() {
-		axios.get('http://localhost:3000/json')
-			.then(response => {
-				this.test = response.data
-			});
-
-		const socket = io.connect('http://localhost:3000/customer-socket');
+		this.init(this.$route.params.storeId);
 	}
 }
 </script>
