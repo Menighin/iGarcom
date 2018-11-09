@@ -9,6 +9,8 @@
 		{{orderSummary}}
 		<hr>
 		{{complexOrder}}
+		<hr>
+		<button @click="finishOrder" :disabled="orderSummary.length == 0">Pedir</button>
 	</div>
 </template>
 
@@ -50,7 +52,16 @@ export default {
 					this.order = {};
 					this.complexOrder = [];
 					this.iGarcomData = response.data;
-				})
+				});
+		},
+		finishOrder() {
+			const self = this;
+			const storeId = this.$route.params.storeId;
+			axios
+				.post(`http://localhost:3000/stores/${storeId}/order`, this.orderSummary)
+				.then(response => {
+					self.init(storeId);
+				});
 		}
 	},
 	mounted() {

@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
+import bodyParser from 'body-parser';
 import io from 'socket.io';
 import setupRoutes from './controllers/routes';
 import setupSockets from './sockets/sockets';
@@ -11,6 +12,8 @@ app.use(cors({
   origin: 'http://localhost:8080',
   credentials: true
 }));
+
+app.use(bodyParser.json());
 
 setupRoutes(app);
 

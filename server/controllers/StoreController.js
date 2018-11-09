@@ -10,12 +10,16 @@ router.get('/list', (req, res) => {
     res.send(stores);
 });
 
-router.get('/:storeName/meta', (req, res) => {
+router.get('/:storeId/meta', (req, res) => {
 
-    const storeName = req.params.storeName;
-    const jsonPath = path.join(__dirname, '..', 'jsons', `${storeName}.json`);
+    const storeId = req.params.storeId;
+    const jsonPath = path.join(__dirname, '..', 'jsons', `${storeId}.json`);
 
     res.send(fs.readFileSync(jsonPath).toString());
+});
+
+router.post('/:storeId/order', (req, res) => {
+    res.send(req.body);
 });
 
 export default router;
