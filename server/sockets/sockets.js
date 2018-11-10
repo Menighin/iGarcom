@@ -1,5 +1,5 @@
-import CustomerSocket from './CustomerSocket';
+import StoreSocket from './StoreSocket';
 
 export default function(io) {
-    CustomerSocket.setup(io);
+    StoreSocket.setup(io);
 }

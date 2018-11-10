@@ -2,15 +2,21 @@
 	<div id="app" v-if="iGarcomData != null">
 		<h1>{{iGarcomData.store}}</h1>
 
-		<router-view v-bind="{menus: iGarcomData.menu, order: order}" :key="$route.fullPath"></router-view>
+		<div v-if="isStore">
+			<router-view v-bind="{menus: iGarcomData.menu, order: order}" :key="$route.fullPath"></router-view>
 
-		<br>
-		<hr>
-		{{orderSummary}}
-		<hr>
-		{{complexOrder}}
-		<hr>
-		<button @click="finishOrder" :disabled="orderSummary.length == 0">Pedir</button>
+			<br>
+			<hr>
+			{{orderSummary}}
+			<hr>
+			{{complexOrder}}
+			<hr>
+			<button @click="finishOrder" :disabled="orderSummary.length == 0">Pedir</button>
+		</div>
+
+		<div v-if="isManage">
+			<router-view :key="$oute.fullPath"></router-view>
+		</div>
 	</div>
 </template>
 
@@ -31,7 +37,9 @@ export default {
 		return {
 			iGarcomData: null,
 			order: {},
-			complexOrder: []
+			complexOrder: [],
+			isStore: false,
+			isManage: false
 		}
 	},
 	computed: {
@@ -89,6 +97,9 @@ export default {
 	},
 	created() {
 		this.init(this.$route.params.storeId);
+
+		this.isStore = this.$route.path.startsWith('/store');
+		this.isManage = this.$route.path.startsWith('/manage');
 	}
 }
 </script>
