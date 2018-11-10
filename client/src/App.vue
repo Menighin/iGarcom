@@ -15,7 +15,7 @@
 		</div>
 
 		<div v-if="isManage">
-			<router-view :key="$oute.fullPath"></router-view>
+			<router-view :key="$route.fullPath"></router-view>
 		</div>
 	</div>
 </template>
@@ -25,7 +25,6 @@ import MainMenu from './components/MainMenu';
 import MenuDetail from './components/MenuDetail';
 import { EventBus } from './EventBus';
 import axios from 'axios';
-// import io from 'socket.io-client';
 
 export default {
 	name: 'App',

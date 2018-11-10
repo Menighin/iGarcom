@@ -1,7 +1,6 @@
 import express from 'express';
-import fs from 'fs';
-import path from 'path';
-import StoreSocket from '@/'
+import StoreMetadataService from '../services/StoreMetadataService';
+import StoreSocket from '../sockets/StoreSocket';
 
 const router = express.Router();
 
@@ -12,15 +11,21 @@ router.get('/list', (req, res) => {
 });
 
 router.get('/:storeId/meta', (req, res) => {
-
     const storeId = req.params.storeId;
-    const jsonPath = path.join(__dirname, '..', 'jsons', `${storeId}.json`);
-
-    res.send(fs.readFileSync(jsonPath).toString());
+    res.send(StoreMetadataService.getMetadata(storeId));
 });
 
 router.post('/:storeId/order', (req, res) => {
-    res.send(req.body);
+    let items = req.body;
+    const orderId = StoreMetadataService.getNextOrderId(req.params.storeId);
+
+    const order = {
+        items,
+        id: orderId
+    };
+
+    StoreSocket.orderReceived(order);
+    res.send(order);
 });
 
 export default router;
