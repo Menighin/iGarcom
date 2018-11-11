@@ -1,7 +1,11 @@
 <template>
 	<div>
 		Manage Store:
-		{{orders}}
+		
+        <div class="order">
+            
+        </div>
+        
 	</div>
 </template>
 

@@ -5,9 +5,7 @@ import StoreSocket from '../sockets/StoreSocket';
 const router = express.Router();
 
 router.get('/list', (req, res) => {
-    const jsonPath = path.join(__dirname, '..', 'jsons');
-    const stores = fs.readdirSync(jsonPath);
-    res.send(stores);
+    res.send(StoreMetadataService.getStoresList());
 });
 
 router.get('/:storeId/meta', (req, res) => {

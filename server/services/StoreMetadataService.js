@@ -3,6 +3,11 @@ import path from 'path';
 
 export default class StoreMetadataService {
 
+    static getStoresList() {
+        const jsonPath = path.join(__dirname, '..', 'jsons');
+        return fs.readdirSync(jsonPath);
+    }
+
     static getMetadata(storeId) {
         const jsonPath = path.join(__dirname, '..', 'jsons', `${storeId}.json`);
         return fs.readFileSync(jsonPath).toString();
