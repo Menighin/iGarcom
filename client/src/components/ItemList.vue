@@ -5,7 +5,7 @@
 				<div class="placeholder"></div>
 				<div class="item-info">
 					<h3 class="item-title">{{item.name}}</h3>
-					<p class="item-description">{{item.description}}</p>
+					<!-- <p class="item-description">{{item.description}}</p> -->
 				</div>
 				<span class="item-price">{{item.price}}</span>
 				<div class="item-controls">
@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 li, ul {
 	list-style: none;
@@ -64,35 +64,36 @@ li, ul {
 
 .item {
 	padding: 5px 0;
-}
 
-.item-container {
-	text-align: left;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	background: greenyellow;
-}
+    .item-container {
+        text-align: left;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background: greenyellow;
 
-.placeholder {
-	width: 96px;
-	height: 96px;
-	border: 1px solid #555;
-}
+        .placeholder {
+            width: 96px;
+            height: 96px;
+            border: 1px solid #555;
+        }
 
-.item-info {
-	padding: 0 20px;
-	background: royalblue;
-}
+        .item-info {
+            padding: 0 20px;
+            background: royalblue;
+            max-width: 200px;
+        }
 
-.item-price {
-	background: tomato;
-	margin-left: auto;
-}
+        .item-price {
+            background: tomato;
+            margin-left: auto;
+        }
 
-.item-controls {
-	padding-left: 10px;
+        .item-controls {
+            padding-left: 10px;
+        }
+    }
 }
 
 </style>

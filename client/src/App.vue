@@ -64,8 +64,10 @@ export default {
 		finishOrder() {
 			const self = this;
 			const storeId = this.$route.params.storeId;
+			const table = this.$route.params.table;
+
 			axios
-				.post(`http://localhost:3000/stores/${storeId}/order`, this.orderSummary)
+				.post(`http://localhost:3000/stores/${storeId}/order`, {items: this.orderSummary, table: table})
 				.then(response => {
 					self.init(storeId);
 				});

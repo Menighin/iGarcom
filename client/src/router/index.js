@@ -9,18 +9,18 @@ Vue.use(Router);
 export default new Router({
 	routes: [
 		{
-			path: '/store/:storeId/',
+			path: '/store/:storeId/:table/',
 			name: 'menu',
 			component: MainMenu
 		},
 		{
-			path: '/store/:storeId/ordering/:optionId',
+			path: '/store/:storeId/:table/ordering/:optionId',
 			name: 'ordering',
 			component: MenuDetail,
 			props: true
 		},
 		{
-			path: '/store/:storeId/ordering/:optionId/:step',
+			path: '/store/:storeId/:table/ordering/:optionId/:step',
 			name: 'orderingComplex',
 			component: MenuDetail,
 			props: true

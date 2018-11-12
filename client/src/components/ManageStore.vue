@@ -1,22 +1,33 @@
 <template>
 	<div>
 		Manage Store:
-		
-        <div class="order">
-            
-        </div>
-        
+
+		<div class="order" v-for="(o, i) in orders" :key="`id-${i}`">
+			{{o.id}} - {{o.table}} - {{o.customer}}
+			<button @click="confirm(o.id)">Confirmar</button>
+		</div>
+
 	</div>
 </template>
 
 <script>
 import io from 'socket.io-client';
+import axios from 'axios';
 
 export default {
 	name: 'ManageStore',
 	data() {
 		return {
 			orders: []
+		}
+	},
+	methods: {
+		confirm(id) {
+			const storeId = this.$route.params.storeId;
+			axios
+				.post(`http://localhost:3000/stores/${storeId}/confirm`, { id })
+				.then(response => {
+				});
 		}
 	},
 	mounted() {
