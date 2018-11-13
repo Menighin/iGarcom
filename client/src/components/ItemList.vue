@@ -4,14 +4,13 @@
 			<div class="item-container">
 				<div class="placeholder"></div>
 				<div class="item-info">
-					<h3 class="item-title">{{item.name}}</h3>
-					<!-- <p class="item-description">{{item.description}}</p> -->
+					<h3 class="item-title">{{item.name}} <i class="fa fa-info-circle"></i></h3>
 				</div>
-				<span class="item-price">{{item.price}}</span>
+				<span class="item-price">R${{item.price}}</span>
 				<div class="item-controls">
-					<button @click="order[item.id].quantity--">-</button>
+					<button class="plain-button" @click="order[item.id].quantity--"><i class="fa fa-minus-circle" /></button>
 					{{order[item.id].quantity}}
-					<button @click="order[item.id].quantity++">+</button>
+					<button class="plain-button" @click="order[item.id].quantity++"><i class="fa fa-plus-circle" /></button>
 				</div>
 			</div>
 		</li>
@@ -65,13 +64,18 @@ li, ul {
 .item {
 	padding: 5px 0;
 
+    .plain-button {
+        border: 0;
+        background: none;
+        font-size: 24px;
+    }
+
     .item-container {
         text-align: left;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
-        background: greenyellow;
 
         .placeholder {
             width: 96px;
@@ -81,12 +85,10 @@ li, ul {
 
         .item-info {
             padding: 0 20px;
-            background: royalblue;
             max-width: 200px;
         }
 
         .item-price {
-            background: tomato;
             margin-left: auto;
         }
 

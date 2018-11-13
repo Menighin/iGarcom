@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import '@fortawesome/fontawesome-free/css/all.css';
 import MainMenu from './components/MainMenu';
 import MenuDetail from './components/MenuDetail';
 import { EventBus } from './EventBus';
