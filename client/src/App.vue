@@ -107,8 +107,11 @@ export default {
 </script>
 
 <style>
+
+@import 'assets/scss/fonts.scss';
+
 #app {
-	font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	font-family: RobotoLight; /*Helvetica, Arial, sans-serif;*/
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;

@@ -120,6 +120,12 @@
 					"description": "Suco de maracujá com morango e gengibre",
 					"img": "sucocasa.png",
 					"price": 7.90
+                },
+                {
+					"id": "skolbeats",
+					"name": "Skol Beats",
+					"img": "sucocasa.png",
+					"price": 11.90
 				}
 			]
 		}

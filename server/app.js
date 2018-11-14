@@ -14,6 +14,7 @@ app.use(cors({
 }));
 
 app.use(bodyParser.json());
+app.use('/static', express.static('public'));
 
 setupRoutes(app);
 
