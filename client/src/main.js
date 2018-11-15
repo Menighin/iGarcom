@@ -3,8 +3,11 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router';
+import { VueHammer } from 'vue2-hammer';
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
+Vue.use(VueHammer);
 
 /* eslint-disable no-new */
 new Vue({

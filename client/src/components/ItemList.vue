@@ -1,18 +1,16 @@
 <template>
 	<ul class="item-list">
 		<li class="item" v-for="(item, i) in model" :key="`item-${i}`">
-			<div class="item-container">
-				<div class="placeholder"><img src="http://localhost:3000/static/parm.jpg" /></div>
-				<div class="item-info">
-					<h3 class="item-title">{{item.name}} <i class="fa fa-info-circle"></i></h3>
-				</div>
-				<div class="pull-right">
+			<div class="item-container" :style="`background-position: ${bgPos}px 0`">
+				<div class="picture"><img src="http://localhost:3000/static/parm.jpg" /></div>
+				<div class="item-info" v-hammer:pan.horizontal="swipe"  >
+					<h3 class="item-title">{{item.name}}</h3>
+					<div class="item-price">R$ {{item.price | price}}</div>
 					<div class="item-controls">
 						<button class="plain-button" @click="order[item.id].quantity--"><i class="fa fa-minus-circle" /></button>
 						{{order[item.id].quantity}}
 						<button class="plain-button" @click="order[item.id].quantity++"><i class="fa fa-plus-circle" /></button>
 					</div>
-					<span class="item-price">R$ {{item.price | price}}</span>
 				</div>
 			</div>
 		</li>
@@ -37,6 +35,7 @@ export default {
 	},
 	data() {
 		return {
+			bgPos: 0
 		}
 	},
 	filters: {
@@ -56,6 +55,12 @@ export default {
 					quantity: 0
 				});
 			}
+		}
+	},
+	methods: {
+		swipe(a, b, c) {
+			console.log(a);
+			this.bgPos = a.deltaX;
 		}
 	}
 }
@@ -80,51 +85,49 @@ li, ul {
     .item-container {
         text-align: left;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: center;
-        align-items: center;
+        align-items: stretch;
 
-        .placeholder {
-            width: 96px;
-            height: 96px;
-            border: 1px solid #555;
+		background-size: 200% 100%;
+		background-image: linear-gradient(to right, red 50%, black 50%);
+
+        .picture {
+            padding-left: 10px;
+            align-items: center;
+            display: flex;
 
             img {
+                border: 1px solid #555;
                 width: 96px;
                 height: 96px;
             }
         }
 
         .item-info {
-            padding: 0 20px;
-            max-width: 200px;
-
-            i {
-                color: #ccc;
+            padding: 0 10px 0 20px;
+            flex: 3;
+            align-items: center;
+            h3 {
+                margin: 0;
+                font-size: 14px;
             }
-
         }
 
-		.pull-right {
-			margin-left: auto;
-			width: 300px;
+        .item-controls {
+            vertical-align: middle;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            button {
+                vertical-align: middle;
+            }
+        }
 
-			.item-controls {
-				display: inline;
-				vertical-align: middle;
-				font-size: 18px;
-				font-weight: bold;
-				button {
-					vertical-align: middle;
-				}
-			}
-
-			.item-price {
-				vertical-align: middle;
-				padding-left: 10px;
-				font-size: 36px;
-			}
-		}
+        .item-price {
+            vertical-align: middle;
+            font-size: 28px;
+        }
     }
 }
 
