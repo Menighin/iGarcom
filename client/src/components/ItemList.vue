@@ -1,16 +1,16 @@
 <template>
 	<ul class="item-list">
 		<li class="item" v-for="(item, i) in model" :key="`item-${i}`">
-			<div class="item-container" :style="`background-position: ${bgPos}px 0`">
+			<div class="item-container" :style="`background-position: ${bgPos[i]} 0; ${bgTransition[i]}`">
 				<div class="picture"><img src="http://localhost:3000/static/parm.jpg" /></div>
-				<div class="item-info" v-hammer:pan.horizontal="swipe"  >
+				<div class="item-info" v-hammer:pan.horizontal="(evt) => pan(i, evt)" v-hammer:panend="(evt) => panend(i, evt)" >
 					<h3 class="item-title">{{item.name}}</h3>
 					<div class="item-price">R$ {{item.price | price}}</div>
-					<div class="item-controls">
+					<!-- <div class="item-controls">
 						<button class="plain-button" @click="order[item.id].quantity--"><i class="fa fa-minus-circle" /></button>
 						{{order[item.id].quantity}}
 						<button class="plain-button" @click="order[item.id].quantity++"><i class="fa fa-plus-circle" /></button>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</li>
@@ -35,7 +35,8 @@ export default {
 	},
 	data() {
 		return {
-			bgPos: 0
+			bgPos: [],
+			bgTransition: []
 		}
 	},
 	filters: {
@@ -58,9 +59,17 @@ export default {
 		}
 	},
 	methods: {
-		swipe(a, b, c) {
-			console.log(a);
-			this.bgPos = a.deltaX;
+		pan(i, evt) {
+			Vue.set(this.bgTransition, i, ``);
+			Vue.set(this.bgPos, i, `${evt.deltaX}px`);
+		},
+		panend(i, evt) {
+			let px = parseInt(this.bgPos[i]);
+			Vue.set(this.bgTransition, i, `transition: background-position .5s`);
+			if (px < -90)
+				Vue.set(this.bgPos, i, `100%`);
+			else
+				Vue.set(this.bgPos, i, `0`);
 		}
 	}
 }
@@ -89,11 +98,12 @@ li, ul {
         justify-content: center;
         align-items: stretch;
 
+		padding: 5px 10px;
 		background-size: 200% 100%;
-		background-image: linear-gradient(to right, red 50%, black 50%);
+		background-image: linear-gradient(to right, #eee 50%, rgb(212, 241, 143) 50%);
+		// transition: background-position .5s;
 
         .picture {
-            padding-left: 10px;
             align-items: center;
             display: flex;
 
@@ -105,7 +115,7 @@ li, ul {
         }
 
         .item-info {
-            padding: 0 10px 0 20px;
+            padding: 0 0 0 10px;
             flex: 3;
             align-items: center;
             h3 {
