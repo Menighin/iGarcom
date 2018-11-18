@@ -7,9 +7,9 @@
 					<h3 class="item-title">{{item.name}}</h3>
 					<div class="item-price">R$ {{item.price | price}}</div>
 					<!-- <div class="item-controls">
-						<button class="plain-button" @click="order[item.id].quantity--"><i class="fa fa-minus-circle" /></button>
+						<button class="plain-button" @click="order[item.id].quantity--"><i class="fa fa-minus-circle" /></button> -->
 						{{order[item.id].quantity}}
-						<button class="plain-button" @click="order[item.id].quantity++"><i class="fa fa-plus-circle" /></button>
+						<!-- <button class="plain-button" @click="order[item.id].quantity++"><i class="fa fa-plus-circle" /></button>
 					</div> -->
 				</div>
 			</div>
@@ -60,6 +60,11 @@ export default {
 	},
 	methods: {
 		pan(i, evt) {
+			let quantity = this.order[this.model[i].id].quantity;
+
+			if (evt.deltaX > 0 && quantity <= 0)
+				evt.deltaX = 0;
+
 			Vue.set(this.bgTransition, i, ``);
 			Vue.set(this.bgPos, i, `${evt.deltaX}px`);
 		},
@@ -101,7 +106,6 @@ li, ul {
 		padding: 5px 10px;
 		background-size: 200% 100%;
 		background-image: linear-gradient(to right, #eee 50%, rgb(212, 241, 143) 50%);
-		// transition: background-position .5s;
 
         .picture {
             align-items: center;
