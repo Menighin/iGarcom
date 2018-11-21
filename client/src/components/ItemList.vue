@@ -1,18 +1,15 @@
 <template>
 	<ul class="item-list">
 		<li class="item" v-for="(item, i) in model" :key="`item-${i}`">
-			<div class="item-container">
-				<div class="drag-left" :style="`left: calc(100% - ${dragLeft[i]}); ${transitionDrag}`"></div>
-				<div class="drag-right" :style="`right: calc(100% - ${dragRight[i]}); ${transitionDrag}`"></div>
+			<div class="item-container" :style="`${backgroundItem[i]}`">
+				<div class="drag-left" :style="`left: calc(100% - ${dragLeft[i]}); ${transitionDrag[i]}; ${opacity[i]}; ${backgroundLeft[i]}`"></div>
+				<div class="drag-right" :style="`right: calc(100% - ${dragRight[i]}); ${transitionDrag[i]}; ${opacity[i]}; ${backgroundRight[i]}`"></div>
+
 				<div class="picture"><img src="http://localhost:3000/static/parm.jpg" /></div>
 				<div class="item-info" v-hammer:pan.horizontal="(evt) => pan(i, evt)" v-hammer:panend="(evt) => panend(i, evt)" >
 					<h3 class="item-title">{{item.name}}</h3>
 					<div class="item-price">R$ {{item.price | price}}</div>
-					<!-- <div class="item-controls">
-						<button class="plain-button" @click="order[item.id].quantity--"><i class="fa fa-minus-circle" /></button> -->
-						{{order[item.id].quantity}}
-						<!-- <button class="plain-button" @click="order[item.id].quantity++"><i class="fa fa-plus-circle" /></button>
-					</div> -->
+					<div class="quantity">{{order[item.id].quantity}}</div>
 				</div>
 			</div>
 		</li>
@@ -38,8 +35,12 @@ export default {
 	data() {
 		return {
 			dragLeft: [],
+			backgroundLeft: [],
 			dragRight: [],
-			transitionDrag: ''
+			backgroundRight: [],
+			opacity: [],
+			transitionDrag: [],
+			backgroundItem: []
 		}
 	},
 	filters: {
@@ -61,15 +62,19 @@ export default {
 			}
 
 			this.dragLeft[i] = '0px';
+			this.backgroundLeft[i] = 'background: rgb(190, 228, 102)';
 			this.dragRight[i] = '0px';
+			this.backgroundRight[i] = 'background: rgb(216, 90, 90)';
+			this.opacity[i] = 'opacity: 0.7';
+			this.backgroundItem[i] = 'background: #eee';
 		}
 	},
 	methods: {
 		pan(i, evt) {
 			const quantity = this.order[this.model[i].id].quantity;
 
-			// if (evt.deltaX > 0 && quantity <= 0)
-			// 	evt.deltaX = 0;
+			if (evt.deltaX > 0 && quantity <= 0)
+				evt.deltaX = 0;
 
 			if (evt.deltaX > 0) {
 				Vue.set(this.dragRight, i, `${evt.deltaX}px`);
@@ -86,19 +91,44 @@ export default {
 			let left = parseInt(this.dragLeft[i]);
 			let px = right || left;
 
-			this.transitionDrag = 'transition: all .5s';
+			Vue.set(this.transitionDrag, i, 'transition: all .5s');
+
+			// Case user didn't drag enough to change quantity
 			if (px <= 90) {
 				Vue.set(this.dragLeft, i, `0px`);
 				Vue.set(this.dragRight, i, `0px`);
+
+				setTimeout(() => {
+					Vue.set(this.transitionDrag, i, '');
+				}, 500)
+
+			// If the user dragged enough to change quantity
 			} else {
-				if (left != 0) Vue.set(this.dragLeft, i, `100%`);
-				if (right != 0) Vue.set(this.dragRight, i, `100%`);
+				if (left != 0)  { Vue.set(this.dragLeft,  i, `100%`); this.order[this.model[i].id].quantity++; }
+				if (right != 0) { Vue.set(this.dragRight, i, `100%`); this.order[this.model[i].id].quantity--; }
+
+				setTimeout(() => {
+					Vue.set(this.opacity, i, 'opacity: 0');
+					this.setBackgroundItemColor(i, this.order[this.model[i].id].quantity);
+
+					setTimeout(() => {
+						Vue.set(this.transitionDrag, i, '');
+						Vue.set(this.dragLeft, i, `0px`);
+						Vue.set(this.dragRight, i, `0px`);
+						Vue.set(this.opacity, i, 'opacity: 0.7');
+					}, 500)
+				}, 500)
 			}
-
-			setTimeout(() => {
-				this.transitionDrag = '';
-			}, 500)
-
+		},
+		setBackgroundItemColor(i, quantity) {
+			if (quantity > 0) {
+				Vue.set(this.backgroundItem, i, 'background: rgb(190, 228, 102)');
+				Vue.set(this.backgroundLeft, i, 'background: rgb(228, 250, 176)');
+			}
+			else if (quantity == 0) {
+				Vue.set(this.backgroundItem, i, 'background: #eee');
+				Vue.set(this.backgroundLeft, i, 'background: rgb(190, 228, 102)');
+			}
 		}
 	}
 }
@@ -135,14 +165,14 @@ li, ul {
 
 		padding: 5px 10px;
 		overflow: hidden;
-		background-color: #eee;
+		transition: all .5s;
 
 		.drag-left {
 			position: absolute;
 			top: 0;
 			width: 100%;
 			height: 100%;
-			background-color: rgba(0, 255, 0, 0.5);
+			background-color: rgb(190, 228, 102);
 		}
 
 		.drag-right {
@@ -150,7 +180,7 @@ li, ul {
 			top: 0;
 			width: 100%;
 			height: 100%;
-			background-color: rgba(255, 0, 0, 0.5);
+			background-color: rgb(216, 90, 90);
 		}
 
 		.picture {
@@ -174,19 +204,18 @@ li, ul {
 			}
 		}
 
-		.item-controls {
-			vertical-align: middle;
-			font-size: 18px;
-			font-weight: bold;
-			text-align: center;
-			button {
-				vertical-align: middle;
-			}
-		}
-
 		.item-price {
 			vertical-align: middle;
 			font-size: 28px;
+		}
+
+		.quantity {
+			position: absolute;
+			right: 0;
+			bottom: -20px;
+			font-size: 72px;
+			font-weight: bold;
+			color: white;
 		}
 	}
 }
