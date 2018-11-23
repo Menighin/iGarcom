@@ -83,10 +83,8 @@ export default {
 				Vue.set(this.dragLeft, i, `${-evt.deltaX}px`);
 				Vue.set(this.dragRight, i, `0px`);
 			}
-
 		},
 		panend(i, evt) {
-			const quantity = this.order[this.model[i].id].quantity;
 			let right = parseInt(this.dragRight[i]);
 			let left = parseInt(this.dragLeft[i]);
 			let px = right || left;
@@ -104,8 +102,8 @@ export default {
 
 			// If the user dragged enough to change quantity
 			} else {
-				if (left != 0)  { Vue.set(this.dragLeft,  i, `100%`); this.order[this.model[i].id].quantity++; }
-				if (right != 0) { Vue.set(this.dragRight, i, `100%`); this.order[this.model[i].id].quantity--; }
+				if (left !== 0) { Vue.set(this.dragLeft, i, `100%`); this.order[this.model[i].id].quantity++; }
+				if (right !== 0) { Vue.set(this.dragRight, i, `100%`); this.order[this.model[i].id].quantity--; }
 
 				setTimeout(() => {
 					Vue.set(this.opacity, i, 'opacity: 0');
@@ -124,8 +122,7 @@ export default {
 			if (quantity > 0) {
 				Vue.set(this.backgroundItem, i, 'background: rgb(190, 228, 102)');
 				Vue.set(this.backgroundLeft, i, 'background: rgb(228, 250, 176)');
-			}
-			else if (quantity == 0) {
+			} else if (quantity === 0) {
 				Vue.set(this.backgroundItem, i, 'background: #eee');
 				Vue.set(this.backgroundLeft, i, 'background: rgb(190, 228, 102)');
 			}
