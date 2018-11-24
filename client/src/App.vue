@@ -1,7 +1,7 @@
 <template>
 	<div id="app" v-if="iGarcomData != null">
 
-		<item-detail-modal v-if="showModal" :item="itemModal" />
+		<item-detail-modal v-if="showModal" :item="itemModal" :order="order" @close="showModal = false" />
 
 		<h1>{{iGarcomData.store}}</h1>
 
