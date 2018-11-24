@@ -1,5 +1,8 @@
 <template>
 	<div id="app" v-if="iGarcomData != null">
+
+		<item-detail-modal v-if="showModal" :item="itemModal" />
+
 		<h1>{{iGarcomData.store}}</h1>
 
 		<div v-if="isStore">
@@ -24,6 +27,7 @@
 import '@fortawesome/fontawesome-free/css/all.css';
 import MainMenu from './components/MainMenu';
 import MenuDetail from './components/MenuDetail';
+import ItemDetailModal from './components/ItemDetailModal';
 import { EventBus } from './EventBus';
 import axios from 'axios';
 
@@ -31,7 +35,8 @@ export default {
 	name: 'App',
 	components: {
 		MainMenu,
-		MenuDetail
+		MenuDetail,
+		ItemDetailModal
 	},
 	data() {
 		return {
@@ -39,7 +44,9 @@ export default {
 			order: {},
 			complexOrder: [],
 			isStore: false,
-			isManage: false
+			isManage: false,
+			showModal: false,
+			itemModal: {}
 		}
 	},
 	computed: {
@@ -95,6 +102,19 @@ export default {
 		EventBus.$on('complexFinish', function(id) {
 			if (!self.order.hasOwnProperty(id)) self.order[id] = [];
 			self.order[id].push(self.complexOrder);
+		});
+
+		EventBus.$on('showModal', function(item) {
+			self.showModal = true;
+			self.itemModal = item;
+		});
+
+		EventBus.$on('routerBack', function(next) {
+			if (self.showModal) {
+				self.showModal = false;
+				next(false);
+			} else
+				next();
 		});
 	},
 	created() {

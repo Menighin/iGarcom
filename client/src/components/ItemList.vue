@@ -5,7 +5,7 @@
 				<div class="drag-left" :style="`left: calc(100% - ${dragLeft[i]}); ${transitionDrag[i]}; ${opacity[i]}; ${backgroundLeft[i]}`"></div>
 				<div class="drag-right" :style="`right: calc(100% - ${dragRight[i]}); ${transitionDrag[i]}; ${opacity[i]}; ${backgroundRight[i]}`"></div>
 
-				<div class="picture"><img src="http://localhost:3000/static/parm.jpg" /></div>
+				<div class="picture" @click="showModal(item)"><img src="http://localhost:3000/static/parm.jpg" /></div>
 				<div class="item-info" v-hammer:pan.horizontal="(evt) => pan(i, evt)" v-hammer:panend="(evt) => panend(i, evt)" >
 					<h3 class="item-title">{{item.name}}</h3>
 					<div class="item-price">R$ {{item.price | price}}</div>
@@ -19,6 +19,7 @@
 <script>
 
 import Vue from 'vue';
+import { EventBus } from '../EventBus';
 
 export default {
 	name: 'ItemList',
@@ -70,6 +71,9 @@ export default {
 		}
 	},
 	methods: {
+		showModal(item) {
+			EventBus.$emit('showModal', item);
+		},
 		pan(i, evt) {
 			const quantity = this.order[this.model[i].id].quantity;
 

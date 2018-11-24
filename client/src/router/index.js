@@ -3,10 +3,11 @@ import Router from 'vue-router';
 import MainMenu from '@/components/MainMenu'
 import MenuDetail from '@/components/MenuDetail'
 import ManageStore from '@/components/ManageStore'
+import { EventBus } from '@/EventBus';
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
 	routes: [
 		{
 			path: '/store/:storeId/:table/',
@@ -32,4 +33,13 @@ export default new Router({
 			props: true
 		}
 	]
-})
+});
+
+router.beforeEach((to, from, next) => {
+	if (from.name === null)
+		next();
+	else
+		EventBus.$emit('routerBack', next);
+});
+
+export default router;
