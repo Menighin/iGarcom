@@ -30,6 +30,7 @@ import MenuDetail from './components/MenuDetail';
 import ItemDetailModal from './components/ItemDetailModal';
 import { EventBus } from './EventBus';
 import axios from 'axios';
+import ApplicationTheme from './ApplicationTheme';
 
 export default {
 	name: 'App',
@@ -67,6 +68,7 @@ export default {
 					this.order = {};
 					this.complexOrder = [];
 					this.iGarcomData = response.data;
+					ApplicationTheme.build(response.data);
 				});
 		},
 		finishOrder() {

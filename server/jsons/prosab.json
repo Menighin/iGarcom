@@ -3,8 +3,12 @@
 	"store": "Projeto Sabor",
 	"logo": "projetosabor.png",
 	"theme": {
-		"primary": "tomato",
-		"secondary": "blue"
+		"background": "#FF5722",
+		"backgroundHighlight": "#eee",
+		"primary": "#FFC107",
+		"primaryHighlight": "#FFEB3B",
+		"secondary": "#009688",
+		"secondaryHighlight": "#4DB6AC"
 	},
 	"menu": [
 		{

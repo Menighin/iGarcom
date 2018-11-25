@@ -1,9 +1,9 @@
 <template>
 	<ul class="item-list">
 		<li class="item" v-for="(item, i) in model" :key="`item-${i}`">
-			<div class="item-container" :style="`${backgroundItem[i]}`">
-				<div class="drag-left" :style="`left: calc(100% - ${dragLeft[i]}); ${transitionDrag[i]}; ${opacity[i]}; ${backgroundLeft[i]}`"></div>
-				<div class="drag-right" :style="`right: calc(100% - ${dragRight[i]}); ${transitionDrag[i]}; ${opacity[i]}; ${backgroundRight[i]}`"></div>
+			<div class="item-container" :style="`background: ${backgroundItem[i]}`">
+				<div class="drag-left" :style="`left: calc(100% - ${dragLeft[i]}); ${transitionDrag[i]}; ${opacity[i]}; background: ${backgroundLeft[i]}`"></div>
+				<div class="drag-right" :style="`right: calc(100% - ${dragRight[i]}); ${transitionDrag[i]}; ${opacity[i]}; background: ${backgroundRight[i]}`"></div>
 
 				<div class="picture" @click="showModal(item)"><img src="http://localhost:3000/static/parm.jpg" /></div>
 				<div class="item-info" v-hammer:pan.horizontal="(evt) => pan(i, evt)" v-hammer:panend="(evt) => panend(i, evt)" >
@@ -20,6 +20,7 @@
 
 import Vue from 'vue';
 import { EventBus } from '../EventBus';
+import ApplicationTheme from '@/ApplicationTheme';
 
 export default {
 	name: 'ItemList',
@@ -62,12 +63,20 @@ export default {
 				});
 			}
 
+			const quantity = this.order[item.id].quantity;
+
 			this.dragLeft[i] = '0px';
-			this.backgroundLeft[i] = 'background: rgb(190, 228, 102)';
 			this.dragRight[i] = '0px';
-			this.backgroundRight[i] = 'background: rgb(216, 90, 90)';
 			this.opacity[i] = 'opacity: 0.7';
-			this.backgroundItem[i] = 'background: #eee';
+			this.backgroundRight[i] = ApplicationTheme.secondaryColor;
+
+			if (quantity === 0) {
+				this.backgroundLeft[i] = ApplicationTheme.primaryColor;
+				this.backgroundItem[i] = ApplicationTheme.backgroundHighlightColor;
+			} else {
+				this.backgroundLeft[i] = ApplicationTheme.primaryHighlightColor;
+				this.backgroundItem[i] = ApplicationTheme.primaryColor;
+			}
 		}
 	},
 	methods: {
@@ -124,11 +133,11 @@ export default {
 		},
 		setBackgroundItemColor(i, quantity) {
 			if (quantity > 0) {
-				Vue.set(this.backgroundItem, i, 'background: rgb(190, 228, 102)');
-				Vue.set(this.backgroundLeft, i, 'background: rgb(228, 250, 176)');
+				Vue.set(this.backgroundItem, i, ApplicationTheme.primaryColor);
+				Vue.set(this.backgroundLeft, i, ApplicationTheme.primaryHighlightColor);
 			} else if (quantity === 0) {
-				Vue.set(this.backgroundItem, i, 'background: #eee');
-				Vue.set(this.backgroundLeft, i, 'background: rgb(190, 228, 102)');
+				Vue.set(this.backgroundItem, i, ApplicationTheme.backgroundHighlightColor);
+				Vue.set(this.backgroundLeft, i, ApplicationTheme.primaryColor);
 			}
 		}
 	}
