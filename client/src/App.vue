@@ -1,5 +1,5 @@
 <template>
-	<div id="app" v-if="iGarcomData != null">
+	<div id="storeApp" v-if="iGarcomData != null" :style="`background: ${appBackground}`">
 
 		<item-detail-modal v-if="showModal" :item="itemModal" :order="order" @close="showModal = false" />
 
@@ -54,7 +54,8 @@ export default {
 			isManage: false,
 			showModal: false,
 			itemModal: {},
-			loadingStore: true
+			loadingStore: true,
+			appBackground: '#FFF'
 		}
 	},
 	computed: {
@@ -77,6 +78,8 @@ export default {
 					this.iGarcomData = response.data;
 					ApplicationTheme.build(response.data);
 					this.loadingStore = false;
+
+					this.appBackground = ApplicationTheme.backgroundColor;
 				});
 		},
 		finishOrder() {
@@ -140,12 +143,17 @@ export default {
 
 @import 'assets/scss/fonts.scss';
 
-#app {
+#storeApp {
 	font-family: RobotoLight; /*Helvetica, Arial, sans-serif;*/
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
-	margin-top: 60px;
+	box-sizing: border-box;
+	padding: 40px 10px;
+
+	width: 100%;
+	height: 100%;
+	overflow: auto;
 }
 </style>

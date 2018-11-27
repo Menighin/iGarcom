@@ -7,6 +7,11 @@ import { VueHammer } from 'vue2-hammer';
 
 Vue.config.productionTip = false;
 
+VueHammer.config.pan = {
+	touchAction: 'auto',
+	direction: 6
+};
+
 Vue.use(VueHammer);
 
 /* eslint-disable no-new */

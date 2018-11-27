@@ -103,6 +103,7 @@ export default {
 			EventBus.$emit('showModal', item);
 		},
 		pan(i, evt) {
+			console.log(evt);
 			const quantity = this.order[this.model[i].id].quantity;
 
 			if (evt.deltaX > 0 && quantity <= 0)
@@ -241,7 +242,7 @@ li, ul {
 		.quantity {
 			position: absolute;
 			right: 0;
-			bottom: -20px;
+			bottom: -17px;
 			font-size: 72px;
 			font-weight: bold;
 			color: white;
