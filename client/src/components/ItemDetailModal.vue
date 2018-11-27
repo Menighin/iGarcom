@@ -13,15 +13,18 @@
 				</div>
 			</div>
 			<div class="actions">
-				<span><i class="fa fa-minus" @click="() => {if (order[item.id].quantity > 0) order[item.id].quantity--}" /></span>
+				<span><i class="fa fa-minus" @click="subtractItem()" /></span>
 				{{order[item.id].quantity}}
-				<span><i class="fa fa-plus" @click="order[item.id].quantity++" /></span>
+				<span><i class="fa fa-plus" @click="addItem()" /></span>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+
+import { EventBus } from '@/EventBus';
+
 export default {
 	props: {
 		item: {
@@ -31,6 +34,18 @@ export default {
 		order: {
 			type: Object,
 			required: true
+		}
+	},
+	methods: {
+		addItem() {
+			this.order[this.item.id].quantity++;
+			EventBus.$emit('itemQuantityChange', this.item);
+		},
+		subtractItem() {
+			if (this.order[this.item.id].quantity > 0) {
+				this.order[this.item.id].quantity--;
+				EventBus.$emit('itemQuantityChange', this.item);
+			}
 		}
 	}
 }

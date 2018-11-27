@@ -78,6 +78,25 @@ export default {
 				this.backgroundItem[i] = ApplicationTheme.primaryColor;
 			}
 		}
+
+		const self = this;
+		EventBus.$on('itemQuantityChange', (item) => {
+			const quantity = self.order[item.id].quantity;
+
+			let i = 0;
+			self.model.forEach((it, j) => {
+				if (it.id === item.id)
+					i = j;
+			});
+
+			if (quantity === 0) {
+				self.backgroundLeft[i] = ApplicationTheme.primaryColor;
+				self.backgroundItem[i] = ApplicationTheme.backgroundHighlightColor;
+			} else {
+				self.backgroundLeft[i] = ApplicationTheme.primaryHighlightColor;
+				self.backgroundItem[i] = ApplicationTheme.primaryColor;
+			}
+		});
 	},
 	methods: {
 		showModal(item) {

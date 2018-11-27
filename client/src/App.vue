@@ -3,28 +3,33 @@
 
 		<item-detail-modal v-if="showModal" :item="itemModal" :order="order" @close="showModal = false" />
 
-		<h1>{{iGarcomData.store}}</h1>
+		<splash-screen v-if="loadingStore" />
 
-		<div v-if="isStore">
-			<router-view v-bind="{menus: iGarcomData.menu, order: order}" :key="$route.fullPath"></router-view>
+		<div class="store-container" v-if="!loadingStore">
+			<h1>{{iGarcomData.store}}</h1>
 
-			<br>
-			<hr>
-			{{orderSummary}}
-			<hr>
-			{{complexOrder}}
-			<hr>
-			<button @click="finishOrder" :disabled="orderSummary.length == 0">Pedir</button>
-		</div>
+			<div v-if="isStore">
+				<router-view v-bind="{menus: iGarcomData.menu, order: order}" :key="$route.fullPath"></router-view>
 
-		<div v-if="isManage">
-			<router-view :key="$route.fullPath"></router-view>
+				<br>
+				<hr>
+				{{orderSummary}}
+				<hr>
+				{{complexOrder}}
+				<hr>
+				<button @click="finishOrder" :disabled="orderSummary.length == 0">Pedir</button>
+			</div>
+
+			<div v-if="isManage">
+				<router-view :key="$route.fullPath"></router-view>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
 import '@fortawesome/fontawesome-free/css/all.css';
+import SplashScreen from '@/components/SplashScreen';
 import MainMenu from './components/MainMenu';
 import MenuDetail from './components/MenuDetail';
 import ItemDetailModal from './components/ItemDetailModal';
@@ -37,7 +42,8 @@ export default {
 	components: {
 		MainMenu,
 		MenuDetail,
-		ItemDetailModal
+		ItemDetailModal,
+		SplashScreen
 	},
 	data() {
 		return {
@@ -47,7 +53,8 @@ export default {
 			isStore: false,
 			isManage: false,
 			showModal: false,
-			itemModal: {}
+			itemModal: {},
+			loadingStore: true
 		}
 	},
 	computed: {
@@ -69,6 +76,7 @@ export default {
 					this.complexOrder = [];
 					this.iGarcomData = response.data;
 					ApplicationTheme.build(response.data);
+					this.loadingStore = false;
 				});
 		},
 		finishOrder() {
