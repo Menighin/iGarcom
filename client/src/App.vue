@@ -23,6 +23,8 @@
 			<div v-if="isManage">
 				<router-view :key="$route.fullPath"></router-view>
 			</div>
+
+			<client-order />
 		</div>
 	</div>
 </template>
@@ -36,6 +38,7 @@ import ItemDetailModal from './components/ItemDetailModal';
 import { EventBus } from './EventBus';
 import axios from 'axios';
 import ApplicationTheme from './ApplicationTheme';
+import ClientOrder from '@/components/ClientOrder';
 
 export default {
 	name: 'App',
@@ -43,7 +46,8 @@ export default {
 		MainMenu,
 		MenuDetail,
 		ItemDetailModal,
-		SplashScreen
+		SplashScreen,
+		ClientOrder
 	},
 	data() {
 		return {

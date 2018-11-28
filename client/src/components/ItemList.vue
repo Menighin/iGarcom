@@ -103,7 +103,9 @@ export default {
 			EventBus.$emit('showModal', item);
 		},
 		pan(i, evt) {
-			console.log(evt);
+			if (Math.abs(evt.overallVelocity) > 1.0)
+				return;
+
 			const quantity = this.order[this.model[i].id].quantity;
 
 			if (evt.deltaX > 0 && quantity <= 0)
