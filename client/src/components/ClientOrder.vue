@@ -3,17 +3,59 @@
 		<div class="swipe-up" @click="isFocused = !isFocused">
 			<i class="fa" :class="{'fa-chevron-up': !isFocused, 'fa-chevron-down': isFocused}" />
 		</div>
-		<div class="client-title">
+		<div class="order-title">
 			<h3>Seu Pedido</h3>
 		</div>
+		<table class="order-content">
+			<thead>
+				<th>Nº</th>
+				<th>Item</th>
+				<th>Preço</th>
+			</thead>
+			<tbody>
+				<tr v-for="(item, i) in orderItems" :key="`item-${i}`">
+					<td>{{i + 1}}</td>
+					<td>{{item.name}}</td>
+					<td>{{item.price | price}}</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>TOTAL</td>
+					<td>{{order.reduce((ac, el) => { return ac + el.price * el.quantity}, 0) | price}}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </template>
 
 <script>
 export default {
+	props: {
+		order: {
+			type: Array,
+			required: true
+		}
+	},
 	data() {
 		return {
 			isFocused: false
+		}
+	},
+	computed: {
+		orderItems() {
+			let orderItems = [];
+			this.order.map(o => {
+				for (let i = 0; i < o.quantity; i++)
+					orderItems.push(o);
+			});
+			return orderItems;
+		}
+	},
+	filters: {
+		price(price) {
+			let [whole, decimal] = price.toFixed(2).toString().split('.');
+			if (typeof decimal === 'undefined') decimal = '';
+			return `R$ ${whole},${decimal.padEnd(2, '0')}`;
 		}
 	}
 }
@@ -44,7 +86,7 @@ export default {
 		color: black;
 	}
 
-	.client-title {
+	.order-title {
 		h3 {
 			margin: 5px 0 0;
 		}
