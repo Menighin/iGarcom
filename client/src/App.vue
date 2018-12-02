@@ -24,7 +24,7 @@
 				<router-view :key="$route.fullPath"></router-view>
 			</div>
 
-			<client-order :order="orderSummary" />
+			<client-order :order="order" />
 		</div>
 	</div>
 </template>

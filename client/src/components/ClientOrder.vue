@@ -6,25 +6,29 @@
 		<div class="order-title">
 			<h3>Seu Pedido</h3>
 		</div>
-		<table class="order-content">
-			<thead>
-				<th>Nº</th>
-				<th>Item</th>
-				<th>Preço</th>
-			</thead>
-			<tbody>
-				<tr v-for="(item, i) in orderItems" :key="`item-${i}`">
-					<td>{{i + 1}}</td>
-					<td>{{item.name}}</td>
-					<td>{{item.price | price}}</td>
-				</tr>
-				<tr>
-					<td></td>
-					<td>TOTAL</td>
-					<td>{{order.reduce((ac, el) => { return ac + el.price * el.quantity}, 0) | price}}</td>
-				</tr>
-			</tbody>
-		</table>
+		<div class="order-content-wrapper">
+			<table class="order-content">
+				<thead>
+					<th>Nº</th>
+					<th>Item</th>
+					<th>Preço</th>
+					<th> </th>
+				</thead>
+				<tbody>
+					<tr v-for="(item, i) in orderItems" :key="`item-${i}`">
+						<td>{{i + 1}}</td>
+						<td>{{item.name}}</td>
+						<td>{{item.price | price}}</td>
+						<td>{{item.id}}</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>TOTAL</td>
+						<td>{{orderItems.reduce((ac, el) => { return ac + el.price * el.quantity}, 0) | price}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </template>
 
@@ -32,7 +36,7 @@
 export default {
 	props: {
 		order: {
-			type: Array,
+			type: Object,
 			required: true
 		}
 	},
@@ -44,10 +48,11 @@ export default {
 	computed: {
 		orderItems() {
 			let orderItems = [];
-			this.order.map(o => {
-				for (let i = 0; i < o.quantity; i++)
-					orderItems.push(o);
+			Object.entries(this.order).map(([id, order]) => {
+				for (let i = 0; i < order.quantity; i++)
+					orderItems.push(order);
 			});
+			console.log(orderItems);
 			return orderItems;
 		}
 	},
@@ -89,6 +94,44 @@ export default {
 	.order-title {
 		h3 {
 			margin: 5px 0 0;
+		}
+	}
+
+	.order-content-wrapper {
+		padding: 5px 10px;
+
+		.order-content {
+			width: 100%;
+			border-collapse: collapse;
+
+			thead th {
+				text-align: left;
+				&:last-child {
+					text-align: right;
+				}
+			}
+
+			tr {
+				&:last-child {
+					font-weight: bold;
+					border-top: 1px solid #777;
+
+					td {
+						padding-top: 5px;
+					}
+				}
+
+				td {
+					text-align: left;
+
+					&:nth-child(3) {
+						text-align: right;
+						min-width: 80px;
+					}
+
+				}
+			}
+
 		}
 	}
 }
