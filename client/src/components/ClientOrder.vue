@@ -19,12 +19,12 @@
 						<td>{{i + 1}}</td>
 						<td>{{item.name}}</td>
 						<td>{{item.price | price}}</td>
-						<td>{{item.id}}</td>
+						<td><i class="fa fa-trash" @click="removeItem(item.id)"></i></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>TOTAL</td>
-						<td>{{orderItems.reduce((ac, el) => { return ac + el.price * el.quantity}, 0) | price}}</td>
+						<td>{{Object.values(order).reduce((ac, el) => { return ac + el.price * el.quantity}, 0) | price}}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -45,14 +45,25 @@ export default {
 			isFocused: false
 		}
 	},
+	methods: {
+		removeItem(id) {
+			console.log(this.order);
+			console.log(id);
+			this.order[id].quantity--;
+		}
+	},
 	computed: {
 		orderItems() {
 			let orderItems = [];
 			Object.entries(this.order).map(([id, order]) => {
-				for (let i = 0; i < order.quantity; i++)
-					orderItems.push(order);
+				for (let i = 0; i < order.quantity; i++) {
+					orderItems.push({
+						id,
+						name: order.name,
+						price: order.price
+					});
+				}
 			});
-			console.log(orderItems);
 			return orderItems;
 		}
 	},
@@ -106,12 +117,14 @@ export default {
 
 			thead th {
 				text-align: left;
-				&:last-child {
+				&:nth-child(3) {
 					text-align: right;
 				}
 			}
 
 			tr {
+				line-height: 22px;
+
 				&:last-child {
 					font-weight: bold;
 					border-top: 1px solid #777;
@@ -127,6 +140,11 @@ export default {
 					&:nth-child(3) {
 						text-align: right;
 						min-width: 80px;
+					}
+
+					&:last-child {
+						text-align: center;
+						padding: 0 5px 0 10px;
 					}
 
 				}
