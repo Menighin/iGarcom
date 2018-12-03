@@ -1,5 +1,8 @@
 <template>
 	<div class="client-order-wrapper" :class="{ active: isFocused }">
+
+		<confirmation-modal v-if="requestConfirmation" />
+
 		<div class="swipe-up" @click="isFocused = !isFocused">
 			<i class="fa" :class="{'fa-chevron-up': !isFocused, 'fa-chevron-down': isFocused}" />
 		</div>
@@ -33,7 +36,13 @@
 </template>
 
 <script>
+
+import ConfirmationModal from './ConfirmationModal'
+
 export default {
+	components: {
+		ConfirmationModal
+	},
 	props: {
 		order: {
 			type: Object,
@@ -42,14 +51,14 @@ export default {
 	},
 	data() {
 		return {
-			isFocused: false
+			isFocused: false,
+			requestConfirmation: false
 		}
 	},
 	methods: {
 		removeItem(id) {
-			console.log(this.order);
-			console.log(id);
-			this.order[id].quantity--;
+			this.requestConfirmation = true;
+			// this.order[id].quantity--;
 		}
 	},
 	computed: {
