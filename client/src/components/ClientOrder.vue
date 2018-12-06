@@ -100,7 +100,7 @@ export default {
 	transform: translateY(calc(100% - 50px));
 
 	&.active {
-		transform: translateY(0);
+		transform: none;
 		box-shadow: 0 -6px 10px rgba(0,0,0,0.16), 0 -6px 10px rgba(0,0,0,0.23);
 	}
 
