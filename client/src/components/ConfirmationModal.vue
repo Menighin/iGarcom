@@ -7,8 +7,8 @@
 						{{msg}}
 					</div>
 					<div class="actions">
-						<span>SIM</span>
-						<span>CANCELAR</span>
+						<span @click="$emit('confirm')">SIM</span>
+						<span @click="$emit('cancel')">CANCELAR</span>
 					</div>
 				</div>
 			</div>

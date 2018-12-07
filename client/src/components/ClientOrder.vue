@@ -1,7 +1,11 @@
 <template>
 	<div class="client-order-wrapper" :class="{ active: isFocused }">
 
-		<confirmation-modal v-if="requestConfirmation" />
+		<confirmation-modal
+			v-if="requestConfirmation"
+			:msg="modalMsg"
+			@cancel="requestConfirmation = false"
+			@confirm="confirmDelete" />
 
 		<div class="swipe-up" @click="isFocused = !isFocused">
 			<i class="fa" :class="{'fa-chevron-up': !isFocused, 'fa-chevron-down': isFocused}" />
@@ -52,13 +56,19 @@ export default {
 	data() {
 		return {
 			isFocused: false,
-			requestConfirmation: false
+			requestConfirmation: false,
+			focusedItem: null
 		}
 	},
 	methods: {
 		removeItem(id) {
 			this.requestConfirmation = true;
-			// this.order[id].quantity--;
+			this.focusedItem = id;
+			this.modalMsg = `Deseja excluir ${this.order[id].name} do seu pedido?`
+		},
+		confirmDelete() {
+			this.order[this.focusedItem].quantity--;
+			this.requestConfirmation = false;
 		}
 	},
 	computed: {
