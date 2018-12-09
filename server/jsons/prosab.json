@@ -8,7 +8,9 @@
 		"primary": "#FFC107",
 		"primaryHighlight": "#FFEB3B",
 		"secondary": "#009688",
-		"secondaryHighlight": "#4DB6AC"
+		"secondaryHighlight": "#4DB6AC",
+		"labelPrimary": "#459dd2",
+		"labelSecondary": "#999"
 	},
 	"menu": [
 		{

@@ -3,9 +3,12 @@
 
 		<confirmation-modal
 			v-if="requestConfirmation"
-			:msg="modalMsg"
 			@cancel="requestConfirmation = false"
-			@confirm="confirmDelete" />
+			@confirm="confirmDelete" >
+
+			Deseja excluir <strong>{{order[focusedItem].name}}</strong> do seu pedido?
+
+		</confirmation-modal>
 
 		<div class="swipe-up" @click="isFocused = !isFocused">
 			<i class="fa" :class="{'fa-chevron-up': !isFocused, 'fa-chevron-down': isFocused}" />

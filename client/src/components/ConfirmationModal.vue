@@ -4,11 +4,11 @@
 			<div class="modal-wrapper" @click.self="$emit('close')">
 				<div class="modal-container">
 					<div class="content">
-						{{msg}}
+						<slot></slot>
 					</div>
 					<div class="actions">
-						<span @click="$emit('confirm')">SIM</span>
-						<span @click="$emit('cancel')">CANCELAR</span>
+						<span class="confirm" @click="$emit('confirm')" :style="`color: ${confirmationColor}`">SIM</span>
+						<span class="cancel" @click="$emit('cancel')" :style="`color: ${cancelColor}`">CANCELAR</span>
 					</div>
 				</div>
 			</div>
@@ -18,16 +18,18 @@
 
 <script>
 
-// import { EventBus } from '@/EventBus';
+import ApplicationTheme from '../ApplicationTheme';
 
 export default {
-	props: {
-		msg: {
-			type: String,
-			required: true
+	data() {
+		return {
+			confirmationColor: null,
+			cancelColor: null
 		}
 	},
-	methods: {
+	created() {
+		this.confirmationColor = ApplicationTheme.labelPrimary;
+		this.cancelColor = ApplicationTheme.labelSecondary;
 	}
 }
 </script>
@@ -53,32 +55,15 @@ export default {
 		.modal-container {
 
 			width: 80%;
-			min-height: 40%;
 			background: white;
 			box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 			border-radius: 2px;
 			transition: all .3s ease;
 			margin: 0 auto;
 
-			.picture {
-				width: 100%;
-				img {
-					width: 100%;
-				}
-			}
-
 			.content {
-				padding: 0 10px 10px;
+				padding: 20px;
 				text-align: left;
-
-				.title {
-					font-size: 16px;
-					font-weight: bold;
-					padding-bottom: 5px;
-				}
-
-				.description {
-				}
 			}
 
 			.actions {
@@ -87,6 +72,16 @@ export default {
 				padding: 10px;
 				border-top: 1px solid #ccc;
 				box-sizing: border-box;
+
+				.confirm {
+					margin-right: 10px;
+					font-weight: bold;
+				}
+
+				.cancel {
+					font-weight: bold;
+				}
+
 			}
 		}
 	}

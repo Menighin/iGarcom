@@ -18,6 +18,12 @@ class ApplicationTheme {
 	get backgroundHighlightColor() { return this._backgroundHighlightColor; }
 	set backgroundHighlightColor(color) { this._backgroundHighlightColor = color; }
 
+	get labelPrimary() { return this._labelPrimary; }
+	set labelPrimary(color) { this._labelPrimary = color; }
+
+	get labelSecondary() { return this._labelSecondary; }
+	set labelSecondary(color) { this._labelSecondary = color; }
+
 	build(metadata) {
 		const { theme } = metadata;
 		this.primaryColor = theme.primary;
@@ -28,6 +34,9 @@ class ApplicationTheme {
 
 		this.backgroundColor = theme.background;
 		this.backgroundHighlightColor = theme.backgroundHighlight;
+
+		this.labelPrimary = theme.labelPrimary;
+		this.labelSecondary = theme.labelSecondary;
 	}
 }
 
