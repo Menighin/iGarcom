@@ -3,12 +3,13 @@
 
 		<h3>{{stepModel.name}}</h3>
 
-		<ul class="options-list">
+		<!-- <ul class="options-list">
 			<li class="option-item" v-for="(o, i) in stepModel.options" :key="`option-${i}`">
 				<input :type="inputType" :id="`item-${i}`" :value="i" v-model="picked">
 				<label :for="`item-${i}`">{{o.name}}</label>
 			</li>
-		</ul>
+		</ul> -->
+		<pick-options :options="stepModel.options"></pick-options>
 
 		<br>
 		<h4>{{picked}}</h4>
@@ -24,9 +25,13 @@
 <script>
 
 import { EventBus } from '../EventBus';
+import PickOptions from './PickOptions';
 
 export default {
 	name: 'ComplexOrder',
+	components: {
+		PickOptions
+	},
 	props: {
 		step: {
 			type: String,
