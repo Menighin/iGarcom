@@ -35,6 +35,7 @@
 						<td></td>
 						<td>TOTAL</td>
 						<td>{{Object.values(order).reduce((ac, el) => { return ac + el.price * el.quantity}, 0) | price}}</td>
+						<td></td>
 					</tr>
 				</tbody>
 			</table>
@@ -166,7 +167,7 @@ export default {
 
 					&:last-child {
 						text-align: center;
-						padding: 0 5px 0 10px;
+						padding: 0 0 0 10px;
 					}
 
 				}

@@ -15,8 +15,8 @@
 		<br>
 
 		<router-link v-if="step > 0" :to="`${parseInt(step) - 1}`">Voltar</router-link>
-		<router-link @click.native="next" v-if="step < model.length - 1" :to="`${parseInt(step) + 1}`">Avançar</router-link>
-		<router-link @click.native="finish" v-if="step == model.length - 1" to="../../">Finalizar</router-link>
+		<router-link @click.native="next" :event="canGoNextEvent" :class="{active: canGoNext}" v-if="step < model.length - 1" :to="`${parseInt(step) + 1}`">Avançar</router-link>
+		<router-link @click.native="finish" :event="canGoNextEvent" :class="{active: canGoNext}" v-if="step == model.length - 1" to="../../">Finalizar</router-link>
 
 	</div>
 </template>
@@ -55,19 +55,31 @@ export default {
 				return 'checkbox';
 			else
 				return 'radio';
+		},
+		canGoNext() {
+			if (Array.isArray(this.picked)) return this.picked.length > 0
+			return this.picked != null;
+		},
+		canGoNextEvent() {
+			if (this.canGoNext) return 'click';
+			return '';
 		}
 	},
 	methods: {
-		next() {
-			EventBus.$emit('complexStep', this.step, this.picked, this.stepModel);
+		next(evt) {
+			if (this.canGoNext)
+				EventBus.$emit('complexStep', this.step, this.picked, this.stepModel);
 		},
 		finish() {
-			EventBus.$emit('complexStep', this.step, this.picked, this.stepModel);
-			EventBus.$emit('complexFinish', this.model.id);
+			if (this.canGoNext) {
+				EventBus.$emit('complexStep', this.step, this.picked, this.stepModel);
+				EventBus.$emit('complexFinish', this.model.id);
+			}
 		}
 	}
 }
 </script>
 
 <style scoped>
+
 </style>
