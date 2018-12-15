@@ -9,7 +9,7 @@
 				<label :for="`item-${i}`">{{o.name}}</label>
 			</li>
 		</ul> -->
-		<pick-options :options="stepModel.options"></pick-options>
+		<pick-options :options="stepModel.options" v-model="picked"></pick-options>
 
 		<br>
 		<h4>{{picked}}</h4>
