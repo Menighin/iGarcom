@@ -9,7 +9,7 @@
 				<label :for="`item-${i}`">{{o.name}}</label>
 			</li>
 		</ul> -->
-		<pick-options :options="stepModel.options" v-model="picked"></pick-options>
+		<pick-options :options="stepModel.options" v-model="picked" :multiple="multipleChoices"></pick-options>
 
 		<br>
 		<h4>{{picked}}</h4>
@@ -55,11 +55,8 @@ export default {
 		stepModel() {
 			return this.model[this.step];
 		},
-		inputType() {
-			if (this.stepModel.maxChoices > this.stepModel.minChoices)
-				return 'checkbox';
-			else
-				return 'radio';
+		multipleChoices() {
+			return this.stepModel.maxChoices > 1;
 		},
 		canGoNext() {
 			if (Array.isArray(this.picked)) return this.picked.length > 0
