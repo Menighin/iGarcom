@@ -29,6 +29,10 @@
 							"img": "ciabata.png"
 						},
 						{
+							"name": "Croassaint",
+							"img": "croassaint.png"
+						},
+						{
 							"name": "Sírio",
 							"img": "sirio.png"
 						}
@@ -70,6 +74,9 @@
 						},
 						{
 							"name": "Cebola"
+						},
+						{
+							"name": "Cenoura"
 						}
 					]
 				}

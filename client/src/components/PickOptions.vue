@@ -1,5 +1,6 @@
 <template>
 	<div class="pick-options-wrapper">
+		<h5>{{optionsLeftText}}</h5>
 		<div class="pick-options">
 			<div class="option" :class="{active: isActive[i] }" v-for="(opt, i) in options" :key="`option-${i}`" @click="pick(opt, i)">
 				<img class="option-picture" :src="`${serverUrl}/static/parm.jpg`" />
@@ -17,7 +18,8 @@ export default {
 	props: {
 		value: { type: Array, required: true },
 		options: { type: Array, required: true },
-		multiple: { type: Boolean, default: false }
+		multiple: { type: Boolean, default: false },
+		maxPicks: { type: Number, default: 1 }
 	},
 	data() {
 		return {
@@ -28,8 +30,16 @@ export default {
 	computed: {
 		isActive() {
 			let actives = this.options.map((o, i) => this.picked[i] !== null);
-			console.log(actives);
 			return actives;
+		},
+		optionsLeft() {
+			return this.maxPicks - this.picked.filter(p => p != null).length;
+		},
+		optionsLeftText() {
+			let optionsLeft = this.optionsLeft;
+			if (optionsLeft === 0) return 'Você já escolheu o máximo de opções!';
+			else if (optionsLeft === 1) return 'Escolha mais 1 opção';
+			else return `Escolha mais ${optionsLeft} opções`
 		}
 	},
 	methods: {
@@ -37,7 +47,7 @@ export default {
 			if (this.multiple) {
 				if (this.picked[pos] != null)
 					this.$set(this.picked, pos, null);
-				else
+				else if (this.optionsLeft > 0)
 					this.$set(this.picked, pos, opt);
 			} else {
 				this.picked.forEach((p, i) => this.$set(this.picked, i, null));
