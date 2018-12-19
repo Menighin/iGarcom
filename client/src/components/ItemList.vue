@@ -1,6 +1,6 @@
 <template>
 	<ul class="item-list">
-		<li class="item" v-for="(item, i) in model" :key="`item-${i}`">
+		<li class="item" v-for="(item, i) in menu.model" :key="`item-${i}`">
 			<div class="item-container" :style="`background: ${backgroundItem[i]}`">
 				<div class="drag-left" :style="`left: calc(100% - ${dragLeft[i]}); ${transitionDrag[i]}; ${opacity[i]}; background: ${backgroundLeft[i]}`"></div>
 				<div class="drag-right" :style="`right: calc(100% - ${dragRight[i]}); ${transitionDrag[i]}; ${opacity[i]}; background: ${backgroundRight[i]}`"></div>
@@ -25,8 +25,8 @@ import ApplicationTheme from '@/ApplicationTheme';
 export default {
 	name: 'ItemList',
 	props: {
-		model: {
-			type: Array,
+		menu: {
+			type: Object,
 			required: true
 		},
 		order: {
@@ -53,7 +53,7 @@ export default {
 		}
 	},
 	created() {
-		for (const [i, item] of this.model.entries()) {
+		for (const [i, item] of this.menu.model.entries()) {
 			let id = item.id;
 			if (typeof this.order[id] === 'undefined' || this.order[id] == null) {
 				Vue.set(this.order, id, {
@@ -84,7 +84,7 @@ export default {
 			const quantity = self.order[item.id].quantity;
 
 			let i = 0;
-			self.model.forEach((it, j) => {
+			self.menu.model.forEach((it, j) => {
 				if (it.id === item.id)
 					i = j;
 			});
@@ -106,7 +106,7 @@ export default {
 			if (Math.abs(evt.overallVelocity) > 1.0)
 				return;
 
-			const quantity = this.order[this.model[i].id].quantity;
+			const quantity = this.order[this.menu.model[i].id].quantity;
 
 			if (evt.deltaX > 0 && quantity <= 0)
 				evt.deltaX = 0;
@@ -137,12 +137,12 @@ export default {
 
 			// If the user dragged enough to change quantity
 			} else {
-				if (left !== 0) { Vue.set(this.dragLeft, i, `100%`); this.order[this.model[i].id].quantity++; }
-				if (right !== 0) { Vue.set(this.dragRight, i, `100%`); this.order[this.model[i].id].quantity--; }
+				if (left !== 0) { Vue.set(this.dragLeft, i, `100%`); this.order[this.menu.model[i].id].quantity++; }
+				if (right !== 0) { Vue.set(this.dragRight, i, `100%`); this.order[this.menu.model[i].id].quantity--; }
 
 				setTimeout(() => {
 					Vue.set(this.opacity, i, 'opacity: 0');
-					this.setBackgroundItemColor(i, this.order[this.model[i].id].quantity);
+					this.setBackgroundItemColor(i, this.order[this.menu.model[i].id].quantity);
 
 					setTimeout(() => {
 						Vue.set(this.transitionDrag, i, '');

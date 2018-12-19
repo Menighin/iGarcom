@@ -17,6 +17,8 @@
 				<hr>
 				{{complexOrder}}
 				<hr>
+				{{order}}
+				<hr>
 				<button @click="finishOrder" :disabled="orderSummary.length == 0">Pedir</button>
 			</div>
 
@@ -64,7 +66,7 @@ export default {
 	},
 	computed: {
 		orderSummary() {
-			return Object.values(this.order).filter(o => o.quantity > 0);
+			return Object.values(this.order).filter(o => Array.isArray(o) || o.quantity > 0);
 		}
 	},
 	watch: {
@@ -101,18 +103,9 @@ export default {
 	mounted() {
 		let self = this;
 		EventBus.$on('complexStep', function(step, picked, stepModel) {
-			if (Array.isArray(picked)) {
-				let pickedChoices = picked.map(p => ({name: stepModel.options[p].name, price: stepModel.options[p].price}));
-				self.complexOrder[step] = {
-					name: stepModel.name,
-					picked: pickedChoices
-				}
-			} else {
-				let pickedChoice = {name: stepModel.options[picked].name, price: stepModel.options[picked].price};
-				self.complexOrder[step] = {
-					name: stepModel.name,
-					picked: pickedChoice
-				}
+			self.complexOrder[step] = {
+				name: stepModel.name,
+				picked
 			}
 		});
 

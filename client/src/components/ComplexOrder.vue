@@ -16,8 +16,8 @@
 		<br>
 
 		<router-link v-if="step > 0" :to="`${parseInt(step) - 1}`">Voltar</router-link>
-		<router-link @click.native="next" :event="canGoNextEvent" :class="{active: canGoNext}" v-if="step < model.length - 1" :to="`${parseInt(step) + 1}`">Avançar</router-link>
-		<router-link @click.native="finish" :event="canGoNextEvent" :class="{active: canGoNext}" v-if="step == model.length - 1" to="../../">Finalizar</router-link>
+		<router-link @click.native="next" :event="canGoNextEvent" :class="{active: canGoNext}" v-if="step < menu.model.length - 1" :to="`${parseInt(step) + 1}`">Avançar</router-link>
+		<router-link @click.native="finish" :event="canGoNextEvent" :class="{active: canGoNext}" v-if="step == menu.model.length - 1" to="../../">Finalizar</router-link>
 
 	</div>
 </template>
@@ -41,8 +41,8 @@ export default {
 			type: Object,
 			required: true
 		},
-		model: {
-			type: Array,
+		menu: {
+			type: Object,
 			required: true
 		}
 	},
@@ -53,7 +53,7 @@ export default {
 	},
 	computed: {
 		stepModel() {
-			return this.model[this.step];
+			return this.menu.model[this.step];
 		},
 		multipleChoices() {
 			return this.stepModel.maxChoices > 1;
@@ -74,8 +74,9 @@ export default {
 		},
 		finish() {
 			if (this.canGoNext) {
+				console.log(this.menu);
 				EventBus.$emit('complexStep', this.step, this.picked, this.stepModel);
-				EventBus.$emit('complexFinish', this.model.id);
+				EventBus.$emit('complexFinish', this.menu.id);
 			}
 		}
 	}

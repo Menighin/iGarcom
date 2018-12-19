@@ -4,7 +4,7 @@
 
         <component
 			:is="menu.component"
-			v-bind="{model: menu.model, order: order, step: step}"
+			v-bind="{menu: menu, order: order, step: step}"
 			/>
 	</div>
 </template>
