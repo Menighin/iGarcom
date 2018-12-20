@@ -6,7 +6,7 @@
 			@cancel="requestConfirmation = false"
 			@confirm="confirmDelete" >
 
-			Deseja excluir <strong>{{order[focusedItem].name}}</strong> do seu pedido?
+			Deseja excluir <strong>{{focusedItem.name}}</strong> do seu pedido?
 
 		</confirmation-modal>
 
@@ -29,12 +29,12 @@
 						<td>{{i + 1}}</td>
 						<td>{{item.name}}</td>
 						<td>{{item.price | price}}</td>
-						<td><i class="fa fa-trash" @click="removeItem(item.id)"></i></td>
+						<td><i class="fa fa-trash" @click="removeItem(item)"></i></td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>TOTAL</td>
-						<td>{{Object.values(order).reduce((ac, el) => { return ac + el.price * el.quantity}, 0) | price}}</td>
+						<td>{{ totalPrice | price}}</td>
 						<td></td>
 					</tr>
 				</tbody>
@@ -65,29 +65,64 @@ export default {
 		}
 	},
 	methods: {
-		removeItem(id) {
+		removeItem(item) {
+			console.log(item);
 			this.requestConfirmation = true;
-			this.focusedItem = id;
-			this.modalMsg = `Deseja excluir ${this.order[id].name} do seu pedido?`
+			this.focusedItem = item;
 		},
 		confirmDelete() {
-			this.order[this.focusedItem].quantity--;
+			if (this.focusedItem.type === 'simple')
+				this.order[this.focusedItem.id].quantity--;
+			else
+				this.order[this.focusedItem.id].splice(this.focusedItem.complexIndex, 1);
+
 			this.requestConfirmation = false;
+			console.log(this.order);
 		}
 	},
 	computed: {
 		orderItems() {
 			let orderItems = [];
 			Object.entries(this.order).map(([id, order]) => {
-				for (let i = 0; i < order.quantity; i++) {
-					orderItems.push({
-						id,
-						name: order.name,
-						price: order.price
+				if (Array.isArray(order)) {
+					order.forEach((c, i) => {
+						let price = 0.0;
+						let subItems = [];
+						for (let step of c) {
+							subItems.push({
+								name: step.name,
+								picked: step.picked.map(p => p.name).join(', ')
+							});
+							price += step.picked.reduce((res, value) => {
+								return typeof value.price !== 'undefined' ? res + value.price : res
+							}, 0);
+						}
+						orderItems.push({
+							id,
+							name: id,
+							subItems,
+							price,
+							complexIndex: i,
+							type: 'complex'
+						});
 					});
+				} else {
+					for (let i = 0; i < order.quantity; i++) {
+						orderItems.push({
+							id,
+							name: order.name,
+							price: order.price,
+							type: 'simple'
+						});
+					}
 				}
 			});
 			return orderItems;
+		},
+		totalPrice() {
+			return this.orderItems.reduce((ac, el) => {
+				return ac + el.price;
+			}, 0)
 		}
 	},
 	filters: {

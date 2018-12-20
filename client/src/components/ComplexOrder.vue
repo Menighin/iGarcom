@@ -74,9 +74,8 @@ export default {
 		},
 		finish() {
 			if (this.canGoNext) {
-				console.log(this.menu);
 				EventBus.$emit('complexStep', this.step, this.picked, this.stepModel);
-				EventBus.$emit('complexFinish', this.menu.id);
+				EventBus.$emit('complexFinish', this.menu.label);
 			}
 		}
 	}

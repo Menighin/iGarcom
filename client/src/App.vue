@@ -66,7 +66,14 @@ export default {
 	},
 	computed: {
 		orderSummary() {
-			return Object.values(this.order).filter(o => Array.isArray(o) || o.quantity > 0);
+			let summary = {};
+
+			for (let [key, value] of Object.entries(this.order)) {
+				if ((Array.isArray(value) && value.length > 0) || value.quantity > 0)
+					summary[key] = value;
+			}
+
+			return summary;
 		}
 	},
 	watch: {
@@ -109,9 +116,9 @@ export default {
 			}
 		});
 
-		EventBus.$on('complexFinish', function(id) {
-			if (!self.order.hasOwnProperty(id)) self.order[id] = [];
-			self.order[id].push(self.complexOrder);
+		EventBus.$on('complexFinish', function(name) {
+			if (!self.order.hasOwnProperty(name)) self.$set(self.order, name, []);
+			self.order[name].push(self.complexOrder);
 		});
 
 		EventBus.$on('showModal', function(item) {
