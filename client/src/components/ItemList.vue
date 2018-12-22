@@ -5,7 +5,13 @@
 				<div class="drag-left" :style="`left: calc(100% - ${dragLeft[i]}); ${transitionDrag[i]}; ${opacity[i]}; background: ${backgroundLeft[i]}`"></div>
 				<div class="drag-right" :style="`right: calc(100% - ${dragRight[i]}); ${transitionDrag[i]}; ${opacity[i]}; background: ${backgroundRight[i]}`"></div>
 
-				<div class="picture" @click="showModal(item)"><img src="http://localhost:3000/static/parm.jpg" /></div>
+				<div class="picture" @click="showModal(item)">
+					<img src="http://localhost:3000/static/parm.jpg" />
+					<div class="info">
+						<div class="background"></div>
+						<i class="fa fa-info-circle"></i>
+					</div>
+				</div>
 				<div class="item-info" v-hammer:pan.horizontal="(evt) => pan(i, evt)" v-hammer:panend="(evt) => panend(i, evt)" >
 					<h3 class="item-title">{{item.name}}</h3>
 					<div class="item-price">R$ {{item.price | price}}</div>
@@ -218,6 +224,35 @@ li, ul {
 		.picture {
 			align-items: center;
 			display: flex;
+			position: relative;
+
+			.info {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				width: 20px;
+				height: 20px;
+
+				.background {
+					background: rgba(255, 255, 255, 0.7);
+					position: absolute;
+					bottom: 0;
+					right: 0;
+					height: 200%;
+					width: 200%;
+					clip-path: polygon(100% 0, 0 100%, 100% 100%);
+				}
+
+				i {
+					position: absolute;
+					bottom: 0;
+					right: 0;
+					z-index: 10;
+					padding: 0 3px 3px 0;
+					font-size: 18px;
+					color: #555;
+				}
+			}
 
 			img {
 				border: 1px solid #555;
