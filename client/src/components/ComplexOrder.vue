@@ -3,12 +3,6 @@
 
 		<h3>{{stepModel.name}}</h3>
 
-		<!-- <ul class="options-list">
-			<li class="option-item" v-for="(o, i) in stepModel.options" :key="`option-${i}`">
-				<input :type="inputType" :id="`item-${i}`" :value="i" v-model="picked">
-				<label :for="`item-${i}`">{{o.name}}</label>
-			</li>
-		</ul> -->
 		<pick-options :options="stepModel.options" v-model="picked" :multiple="multipleChoices" :maxPicks="stepModel.maxChoices"></pick-options>
 
 		<br>

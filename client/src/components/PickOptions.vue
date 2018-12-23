@@ -3,8 +3,9 @@
 		<h5>{{optionsLeftText}}</h5>
 		<div class="pick-options">
 			<div class="option" :class="{active: isActive[i] }" v-for="(opt, i) in options" :key="`option-${i}`" @click="pick(opt, i)">
+				<h5 class="option-name">{{ opt.name }}</h5>
 				<img class="option-picture" :src="`${serverUrl}/static/parm.jpg`" />
-				<h5 class="option-name">{{opt.name}}</h5>
+				<h5 class="option price">{{ typeof opt.price !== 'undefined' ? opt.price : '' | price }}</h5>
 			</div>
 		</div>
 	</div>
@@ -61,6 +62,14 @@ export default {
 				.forEach(p => this.value.push(p));
 		}
 	},
+	filters: {
+		price(price) {
+			if (price.length === 0) return '';
+			let [whole, decimal] = price.toString().split('.');
+			if (typeof decimal === 'undefined') decimal = '';
+			return `R$ ${whole},${decimal.padEnd(2, '0')}`;
+		}
+	},
 	created() {
 		this.serverUrl = Constants.SERVER_URL;
 		this.picked = this.options.map(o => null);
@@ -78,7 +87,6 @@ export default {
 
 		.option {
 			margin: 10px;
-			background: white;
 
 			.option-name {
 				margin: 0;
@@ -87,6 +95,7 @@ export default {
 			.option-picture {
 				height: 75px;
 				width: 75px;
+				border-radius: 1000px;
 			}
 
 			&.active {

@@ -139,6 +139,7 @@ export default {
 
 .client-order-wrapper {
 	position: fixed;
+	z-index: 9999;
 	width: 100%;
 	height: 80%;
 	background: rgb(235, 212, 135);

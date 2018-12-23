@@ -16,7 +16,7 @@
 					</div>
 					<div class="actions">
 						<span><i class="fa fa-minus-circle" @click="subtractItem()" /></span>
-						{{order[item.id].quantity}}
+						{{ order[item.id].quantity }}
 						<span><i class="fa fa-plus-circle" @click="addItem()" /></span>
 					</div>
 				</div>
