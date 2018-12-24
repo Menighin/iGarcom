@@ -3,9 +3,11 @@
 		<h5>{{optionsLeftText}}</h5>
 		<div class="pick-options">
 			<div class="option" :class="{active: isActive[i] }" v-for="(opt, i) in options" :key="`option-${i}`" @click="pick(opt, i)">
-				<h5 class="option-name">{{ opt.name }}</h5>
-				<img class="option-picture" :src="`${serverUrl}/static/parm.jpg`" />
-				<h5 class="option price">{{ typeof opt.price !== 'undefined' ? opt.price : '' | price }}</h5>
+				<h3 class="option-name">{{ opt.name }}</h3>
+				<div class="option-picture">
+					<img :src="`${serverUrl}/static/parm.jpg`" />
+				</div>
+				<h5 class="option-price">{{ typeof opt.price !== 'undefined' ? opt.price : '' | price }}</h5>
 			</div>
 		</div>
 	</div>
@@ -86,20 +88,45 @@ export default {
 		justify-content: center;
 
 		.option {
+			flex: 1 1 0;
 			margin: 10px;
 
 			.option-name {
-				margin: 0;
+				margin: 10px;
+			}
+
+			.option-price {
+				margin: 10px;
 			}
 
 			.option-picture {
 				height: 75px;
 				width: 75px;
-				border-radius: 1000px;
+				border-radius: 50px;
+				border: 3px solid rgba(255, 255, 255, 0);
+				position: relative;
+				overflow: hidden;
+				margin: 0 auto;
+
+				img {
+					height: 100%;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					transition: all .2s;
+				}
+
 			}
 
 			&.active {
-				background: blue;
+				.option-picture {
+					border: 3px solid rgba(255, 255, 255, 1);
+					img {
+						height: 120%;
+						width: 120%;
+					}
+				}
 			}
 		}
 	}

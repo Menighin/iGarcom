@@ -1,8 +1,26 @@
 <template>
 	<transition name="modal">
 		<div class="modal-mask">
-			<div class="modal-wrapper" @click.self="$emit('close')">
-				<div class="modal-container">
+			<span class="close-btn" @click="$emit('close')"><i class="fa fa-times"></i></span>
+			<div class="content-wrapper">
+				
+				<h2 class="title">{{ item.name }}</h2>
+
+				<div class="picture">
+					<img :src="'http://localhost:3000/static/parm.jpg'">
+				</div>
+
+				<div class="description">
+					{{ item.description }}
+				</div>
+
+				<div class="actions">
+					<i class="fa fa-minus-circle" @click="subtractItem()" />
+					<span class="quantity">{{ order[item.id].quantity }}</span>
+					<i class="fa fa-plus-circle" @click="addItem()" />
+				</div>
+
+				<!-- <div class="modal-container">
 					<div class="picture">
 						<img :src="'http://localhost:3000/static/parm.jpg'">
 					</div>
@@ -14,12 +32,8 @@
 							{{item.description}}
 						</div>
 					</div>
-					<div class="actions">
-						<span><i class="fa fa-minus-circle" @click="subtractItem()" /></span>
-						{{ order[item.id].quantity }}
-						<span><i class="fa fa-plus-circle" @click="addItem()" /></span>
-					</div>
-				</div>
+					
+				</div> -->
 			</div>
 		</div>
 	</transition>
@@ -64,54 +78,60 @@ export default {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background: rgba(255, 255, 255, 0.93);
+	background: rgba(255, 255, 255, 0.95);
 	transition: opacity .3s ease;
-	display: table;
+	display: table-cell;
+	vertical-align: middle;
 
-	.modal-wrapper {
+	.close-btn {
+		position: absolute;
+		font-size: 24px;
+		top: 10px;
+		right: 10px;
+	}
 
-		display: table-cell;
-		vertical-align: middle;
+	.content-wrapper {
 
-		.modal-container {
+		height: 75%;
+		width: 75%;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
 
-			width: 80%;
-			min-height: 40%;
-			background: white;
-			box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-			border-radius: 2px;
-			transition: all .3s ease;
+		.picture {
+			height: 120px;
+			width: 120px;
+			border-radius: 10000px;
+			border: 3px solid rgba(255, 255, 255, 0);
+			position: relative;
+			overflow: hidden;
 			margin: 0 auto;
 
-			.picture {
-				width: 100%;
-				img {
-					width: 100%;
-				}
+			img {
+				height: 100%;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				transition: all .2s;
 			}
 
-			.content {
-				padding: 0 10px 10px;
-				text-align: left;
+		}
 
-				.title {
-					font-size: 16px;
-					font-weight: bold;
-					padding-bottom: 5px;
-				}
+		.actions {
+			font-size: 42px;
+			display: inline-block;
 
-				.description {
-				}
+			i {
+				vertical-align: middle;
 			}
-
-			.actions {
-				text-align: right;
-				width: 100%;
-				padding: 10px;
-				border-top: 1px solid #ccc;
-				box-sizing: border-box;
+			.quantity {
+				font-size: 64px;
+				vertical-align: middle;
 			}
 		}
+		
 	}
 }
 

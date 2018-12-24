@@ -225,6 +225,10 @@ li, ul {
 			align-items: center;
 			display: flex;
 			position: relative;
+			width: 96px;
+			height: 96px;
+			overflow: hidden;
+			border: 1px solid #ccc;
 
 			.info {
 				position: absolute;
@@ -256,8 +260,11 @@ li, ul {
 
 			img {
 				border: 1px solid #555;
-				width: 96px;
-				height: 96px;
+				height: 100%;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
 			}
 		}
 
